@@ -1,0 +1,11 @@
+//
+//  Release.xcconfig
+//  MyMoodz
+//
+//  Created by Nagaraj Alagusundaram on 6/4/2025.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://developer.apple.com/documentation/xcode/adding-a-build-configuration-file-to-your-project
+
+APP_ENV = PRODUCTION
