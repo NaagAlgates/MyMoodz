@@ -23,7 +23,7 @@ struct NoteInputView: View {
             .overlay(
                 Group {
                     if note.isEmpty {
-                        Text("Add a short note...")
+                        Text("Add a short note (optional)")
                             .foregroundColor(.gray)
                             .padding(.horizontal, 18)
                             .padding(.vertical, 14)
