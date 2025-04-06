@@ -21,6 +21,13 @@ struct HomeScreen: View {
                 VStack(spacing: 20) {
                     Text("How are you feeling?")
                         .font(.sfRounded(22, weight: .semibold))
+                        .toolbar {
+                            ToolbarItem(placement: .navigationBarTrailing) {
+                                NavigationLink(destination: MoodHubScreen()) {
+                                    Image(systemName: "rectangle.grid.2x2")
+                                }
+                            }
+                        }
 
                     MoodGridView(selectedMood: $selectedMood, moods: Mood.all)
                         .padding(.horizontal)
