@@ -11,6 +11,7 @@ struct HomeScreen: View {
     @State private var lastMoodEntry: MoodEntry?
     @State private var selectedMood: String = ""
     @State private var note = ""
+    @ObservedObject private var keyboard = KeyboardResponder()
 
     var body: some View {
         NavigationView {
@@ -29,19 +30,17 @@ struct HomeScreen: View {
                                 }
                             }
                         }
-                    if let last = lastMoodEntry {
-                        Group {
-                            HStack(spacing: 4) {
-                                Text("Last mood:")
-                                    .foregroundColor(.gray)
-                                    .font(.footnote)
-                                Text(last.emoji ?? "")
-                                    .font(.footnote)
 
-                                Text(TimeAgoFormatter.format(last.timestamp ?? Date()))
-                                    .foregroundColor(.gray)
-                                    .font(.footnote)
-                            }
+                    if let last = lastMoodEntry {
+                        HStack(spacing: 4) {
+                            Text("Last mood:")
+                                .foregroundColor(.gray)
+                                .font(.footnote)
+                            Text(last.emoji ?? "")
+                                .font(.footnote)
+                            Text(TimeAgoFormatter.format(last.timestamp ?? Date()))
+                                .foregroundColor(.gray)
+                                .font(.footnote)
                         }
                     }
 
@@ -78,10 +77,14 @@ struct HomeScreen: View {
                     Spacer()
                 }
                 .padding()
+                .offset(y: -keyboard.currentHeight * 0.1) // 👈 Smooth keyboard shift
+                .animation(.easeInOut(duration: 0.3), value: keyboard.currentHeight)
             }
             .hideKeyboardOnTap()
-        }.onAppear {
+        }
+        .onAppear {
             lastMoodEntry = MoodDataService.shared.fetchLatestMood()
         }
     }
+
 }
