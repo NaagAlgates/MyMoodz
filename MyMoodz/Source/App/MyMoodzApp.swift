@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct MyMoodzApp: App {
+    let persistenceController = PersistenceController.shared
     var body: some Scene {
         WindowGroup {
             HomeScreen()
+                .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
 }

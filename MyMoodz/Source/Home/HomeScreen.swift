@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct HomeScreen: View {
+    @State private var lastMoodEntry: MoodEntry?
     @State private var selectedMood: String = ""
     @State private var note = ""
 
@@ -28,6 +29,21 @@ struct HomeScreen: View {
                                 }
                             }
                         }
+                    if let last = lastMoodEntry {
+                        Group {
+                            HStack(spacing: 4) {
+                                Text("Last mood:")
+                                    .foregroundColor(.gray)
+                                    .font(.footnote)
+                                Text(last.emoji ?? "")
+                                    .font(.footnote)
+
+                                Text(TimeAgoFormatter.format(last.timestamp ?? Date()))
+                                    .foregroundColor(.gray)
+                                    .font(.footnote)
+                            }
+                        }
+                    }
 
                     MoodGridView(selectedMood: $selectedMood, moods: Mood.all)
                         .padding(.horizontal)
@@ -36,7 +52,11 @@ struct HomeScreen: View {
                         .padding(.horizontal)
 
                     Button(action: {
+                        MoodDataService.shared.saveMood(emoji: selectedMood, note: note)
+                        lastMoodEntry = MoodDataService.shared.fetchLatestMood()
                         Log.d("Mood: \(selectedMood), Note: \(note)")
+                        selectedMood = ""
+                        note = ""
                     }) {
                         Text("Save Mood")
                             .font(.sfRounded(16, weight: .semibold))
@@ -60,6 +80,8 @@ struct HomeScreen: View {
                 .padding()
             }
             .hideKeyboardOnTap()
+        }.onAppear {
+            lastMoodEntry = MoodDataService.shared.fetchLatestMood()
         }
     }
 }
