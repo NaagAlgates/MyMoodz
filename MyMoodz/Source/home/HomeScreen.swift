@@ -33,6 +33,7 @@ struct HomeScreen: View {
     ]
 
     var body: some View {
+        
         NavigationView {
             VStack(spacing: 20) {
                 Text("How are you feeling?")

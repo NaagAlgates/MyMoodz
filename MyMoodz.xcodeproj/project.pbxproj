@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		D94B72422DA24DCA0018BD36 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = D94B72412DA24DC20018BD36 /* .gitignore */; };
+		D94B72442DA24F630018BD36 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = D94B72432DA24F630018BD36 /* Debug.xcconfig */; };
+		D94B72462DA24F8B0018BD36 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = D94B72452DA24F8B0018BD36 /* Release.xcconfig */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +31,8 @@
 
 /* Begin PBXFileReference section */
 		D94B72412DA24DC20018BD36 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		D94B72432DA24F630018BD36 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = Environments/Debug.xcconfig; sourceTree = "<group>"; };
+		D94B72452DA24F8B0018BD36 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Environments/Release.xcconfig; sourceTree = "<group>"; };
 		D9AAD5FB2DA2039F009025CF /* My Moodz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "My Moodz.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9AAD60B2DA203A2009025CF /* My MoodzTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "My MoodzTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9AAD6152DA203A2009025CF /* My MoodzUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "My MoodzUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -80,6 +84,8 @@
 		D9AAD5F22DA2039F009025CF = {
 			isa = PBXGroup;
 			children = (
+				D94B72432DA24F630018BD36 /* Debug.xcconfig */,
+				D94B72452DA24F8B0018BD36 /* Release.xcconfig */,
 				D94B72412DA24DC20018BD36 /* .gitignore */,
 				D9AAD5FD2DA2039F009025CF /* MyMoodz */,
 				D9AAD60E2DA203A2009025CF /* MyMoodzTests */,
@@ -218,6 +224,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D94B72462DA24F8B0018BD36 /* Release.xcconfig in Resources */,
+				D94B72442DA24F630018BD36 /* Debug.xcconfig in Resources */,
 				D94B72422DA24DCA0018BD36 /* .gitignore in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -278,6 +286,7 @@
 /* Begin XCBuildConfiguration section */
 		D9AAD61D2DA203A2009025CF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D94B72432DA24F630018BD36 /* Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -340,6 +349,7 @@
 		};
 		D9AAD61E2DA203A2009025CF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D94B72452DA24F8B0018BD36 /* Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -394,6 +404,7 @@
 		};
 		D9AAD6202DA203A2009025CF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D94B72432DA24F630018BD36 /* Debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -435,6 +446,7 @@
 		};
 		D9AAD6212DA203A2009025CF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D94B72452DA24F8B0018BD36 /* Release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -476,6 +488,7 @@
 		};
 		D9AAD6232DA203A2009025CF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D94B72432DA24F630018BD36 /* Debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -499,6 +512,7 @@
 		};
 		D9AAD6242DA203A2009025CF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D94B72452DA24F8B0018BD36 /* Release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -522,6 +536,7 @@
 		};
 		D9AAD6262DA203A2009025CF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D94B72432DA24F630018BD36 /* Debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -544,6 +559,7 @@
 		};
 		D9AAD6272DA203A2009025CF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D94B72452DA24F8B0018BD36 /* Release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
