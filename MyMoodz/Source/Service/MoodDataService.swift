@@ -10,9 +10,7 @@ import CoreData
 
 final class MoodDataService {
     static let shared = MoodDataService()
-
     private let context: NSManagedObjectContext
-
     private init(context: NSManagedObjectContext = PersistenceController.shared.container.viewContext) {
         self.context = context
     }
@@ -44,5 +42,45 @@ final class MoodDataService {
             return nil
         }
     }
-    // We'll add fetch, update, delete next
+    
+    func fetchAllMoods() -> [MoodEntry] {
+        let request: NSFetchRequest<MoodEntry> = MoodEntry.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
+
+        do {
+            return try context.fetch(request)
+        } catch {
+            Log.d("❌ Failed to fetch moods: \(error)")
+            return []
+        }
+    }
+
+    func deleteMood(_ mood: MoodEntry) {
+        context.delete(mood)
+        do {
+            try context.save()
+        } catch {
+            Log.d("Failed to delete mood: \(error)")
+        }
+    }
+
+    func updateMood(_ entry: MoodEntry, newNote: String?, newEmoji: String?) {
+        entry.note = newNote
+        entry.emoji = newEmoji
+        entry.timestamp = Date()
+        do {
+            try context.save()
+            context.refresh(entry, mergeChanges: true)
+            Log.d("✅ Mood updated")
+        } catch {
+            Log.d("Failed to update mood: \(error)")
+        }
+    }
+    
+    func fetchEntry(by id: UUID) -> MoodEntry? {
+        let request: NSFetchRequest<MoodEntry> = MoodEntry.fetchRequest()
+        request.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        request.fetchLimit = 1
+        return (try? context.fetch(request))?.first
+    }
 }
