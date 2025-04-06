@@ -1,0 +1,105 @@
+//
+//  .gitignore
+//  MyMoodz
+//
+//  Created by Nagaraj Alagusundaram on 6/4/2025.
+//
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Xcode
+build/
+DerivedData/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata/
+*.xcscmblueprint
+
+# SwiftPM
+.build/
+Package.resolved
+.swiftpm/xcode/package.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+
+# CocoaPods
+Pods/
+Podfile.lock
+project.xcworkspace
+
+# Carthage
+Carthage/Build/
+Carthage/Checkouts/
+Carthage/Manifest.json
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/
+fastlane/test_output/
+
+# Archives
+*.xcarchive
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Playgrounds
+timeline.xctimeline
+playground.xcworkspace
+
+# User settings
+*.xcuserstate
+*.moved-aside
+*.swp
+*.lock
+
+# Xcode Server
+integration.json
+*.xccheckout
+*.xcodeproj/project.xcworkspace/xcuserdata/
+
+# Swiftlint
+.swiftlint.yml
+
+# Coverage Reports
+*.gcno
+*.gcda
+*.profdata
+
+# Temporary files
+*.orig
+*.rej
+*.bak
+*.tmp
+
+# Crashlytics
+fabric.properties
+
+# Firebase
+GoogleService-Info.plist
+
+# Realm
+*.realm
+*.realm.lock
+*.realm.management/
+
+# Other
+.env
+*.log
+*.key
+*.pem
+*.crt
