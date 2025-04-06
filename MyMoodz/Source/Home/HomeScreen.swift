@@ -12,6 +12,9 @@ struct HomeScreen: View {
     @State private var selectedMood: String = ""
     @State private var note = ""
     @ObservedObject private var keyboard = KeyboardResponder()
+    @State private var now = Date()
+    private let timer = Timer.publish(every: 30, on: .main, in: .common).autoconnect()
+
 
     var body: some View {
         NavigationView {
@@ -38,9 +41,10 @@ struct HomeScreen: View {
                                 .font(.footnote)
                             Text(last.emoji ?? "")
                                 .font(.footnote)
-                            Text(TimeAgoFormatter.format(last.timestamp ?? Date()))
+                            Text(TimeAgoFormatter.format(last.timestamp ?? Date(), relativeTo: now))
                                 .foregroundColor(.gray)
                                 .font(.footnote)
+
                         }
                     }
 
@@ -85,6 +89,13 @@ struct HomeScreen: View {
         .onAppear {
             lastMoodEntry = MoodDataService.shared.fetchLatestMood()
         }
+        .onReceive(timer) { _ in
+            now = Date()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+            now = Date()
+        }
+
     }
 
 }

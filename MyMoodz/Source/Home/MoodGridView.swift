@@ -15,7 +15,7 @@ struct Mood: Identifiable, Equatable {
 
     static let all: [Mood] = [
         .init(emoji: "😄", label: "Happy"),
-        .init(emoji: "😊", label: "Content"),
+        .init(emoji: "😌", label: "Calm"),
         .init(emoji: "😐", label: "Neutral"),
         .init(emoji: "😢", label: "Sad"),
         .init(emoji: "😡", label: "Angry"),

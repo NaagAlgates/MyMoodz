@@ -8,8 +8,7 @@
 import Foundation
 
 struct TimeAgoFormatter {
-    static func format(_ date: Date) -> String {
-        let now = Date()
+    static func format(_ date: Date, relativeTo now: Date = Date()) -> String {
         let seconds = now.timeIntervalSince(date)
 
         let minute = 60.0
@@ -19,8 +18,10 @@ struct TimeAgoFormatter {
         let month = 2_592_000.0
 
         switch seconds {
-        case 0..<60:
+        case 0..<30:
             return "Just now"
+        case 30..<60:
+            return "30 sec ago"
         case 60..<hour:
             let minutes = Int(seconds / minute)
             return "\(minutes) min\(minutes == 1 ? "" : "s") ago"
@@ -42,7 +43,7 @@ struct TimeAgoFormatter {
             return "A month ago"
         default:
             let months = Int(seconds / month)
-            return "\(months) months ago"
+            return months <= 0 ? "Just now" : "\(months) months ago"
         }
     }
 }
