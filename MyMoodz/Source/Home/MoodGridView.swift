@@ -12,10 +12,14 @@ struct Mood: Identifiable, Equatable {
     let id = UUID()
     let emoji: String
     let label: String
+    
+    static func label(forEmoji emoji: String) -> String {
+        all.first(where: { $0.emoji == emoji })?.label ?? "Unknown"
+    }
 
     static let all: [Mood] = [
         .init(emoji: "😄", label: "Happy"),
-        .init(emoji: "😊", label: "Content"),
+        .init(emoji: "😌", label: "Calm"),
         .init(emoji: "😐", label: "Neutral"),
         .init(emoji: "😢", label: "Sad"),
         .init(emoji: "😡", label: "Angry"),

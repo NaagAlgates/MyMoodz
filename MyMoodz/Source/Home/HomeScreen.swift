@@ -8,8 +8,13 @@
 import SwiftUI
 
 struct HomeScreen: View {
+    @State private var lastMoodEntry: MoodEntry?
     @State private var selectedMood: String = ""
     @State private var note = ""
+    @ObservedObject private var keyboard = KeyboardResponder()
+    @State private var now = Date()
+    private let timer = Timer.publish(every: 30, on: .main, in: .common).autoconnect()
+
 
     var body: some View {
         NavigationView {
@@ -29,6 +34,20 @@ struct HomeScreen: View {
                             }
                         }
 
+                    if let last = lastMoodEntry {
+                        HStack(spacing: 4) {
+                            Text("Last mood:")
+                                .foregroundColor(.gray)
+                                .font(.footnote)
+                            Text(last.emoji ?? "")
+                                .font(.footnote)
+                            Text(TimeAgoFormatter.format(last.timestamp ?? Date(), relativeTo: now))
+                                .foregroundColor(.gray)
+                                .font(.footnote)
+
+                        }
+                    }
+
                     MoodGridView(selectedMood: $selectedMood, moods: Mood.all)
                         .padding(.horizontal)
 
@@ -36,7 +55,11 @@ struct HomeScreen: View {
                         .padding(.horizontal)
 
                     Button(action: {
+                        MoodDataService.shared.saveMood(emoji: selectedMood, note: note)
+                        lastMoodEntry = MoodDataService.shared.fetchLatestMood()
                         Log.d("Mood: \(selectedMood), Note: \(note)")
+                        selectedMood = ""
+                        note = ""
                     }) {
                         Text("Save Mood")
                             .font(.sfRounded(16, weight: .semibold))
@@ -58,8 +81,21 @@ struct HomeScreen: View {
                     Spacer()
                 }
                 .padding()
+                .offset(y: -keyboard.currentHeight * 0.1) // 👈 Smooth keyboard shift
+                .animation(.easeInOut(duration: 0.3), value: keyboard.currentHeight)
             }
             .hideKeyboardOnTap()
         }
+        .onAppear {
+            lastMoodEntry = MoodDataService.shared.fetchLatestMood()
+        }
+        .onReceive(timer) { _ in
+            now = Date()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+            now = Date()
+        }
+
     }
+
 }
