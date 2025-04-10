@@ -58,8 +58,9 @@ struct MoodRow: View {
             if let note = entry.note, !note.isEmpty {
                 Text(note)
                     .font(.body)
+                    .foregroundColor(Color(UIColor.brown))
                     .padding(8)
-                    .background(entry.isPinned ?Color.orange.opacity(0.2): Color.gray.opacity(0.1))
+                    .background(entry.isPinned ?nil: Color.gray.opacity(0.1))
                     .cornerRadius(8)
             }
         }
