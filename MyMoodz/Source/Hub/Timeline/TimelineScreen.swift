@@ -21,9 +21,12 @@ struct TimelineScreen: View {
         }
 
         return moodEntries.filter { entry in
-            let noteMatch = entry.note?.localizedCaseInsensitiveContains(searchText) ?? false
-            let moodLabelMatch = Mood.label(forEmoji: entry.emoji ?? "").localizedCaseInsensitiveContains(searchText)
-            return noteMatch || moodLabelMatch
+            let emojiMatches = (entry.emoji ?? "").trimmingCharacters(in: .whitespacesAndNewlines) == searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+            let noteMatches = entry.note?.localizedCaseInsensitiveContains(searchText) ?? false
+            let labelMatches = Mood.label(forEmoji: entry.emoji ?? "")
+                .localizedCaseInsensitiveContains(searchText)
+            
+            return emojiMatches || labelMatches || noteMatches
         }
     }
 
@@ -52,6 +55,7 @@ struct TimelineScreen: View {
             .background(Color(.systemGroupedBackground))
             .navigationTitle("Timeline")
             .searchable(text: $searchText, prompt: "Search mood or note")
+            .textInputAutocapitalization(.never)
         }
         .sheet(item: $selectedEntry) { entryData in
             EditMoodSheet(entryData: entryData) {
