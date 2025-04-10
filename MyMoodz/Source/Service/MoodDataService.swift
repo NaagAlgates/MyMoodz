@@ -49,12 +49,19 @@ final class MoodDataService {
         request.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
 
         do {
-            return try context.fetch(request)
+            let moods = try context.fetch(request)
+            moods.forEach { mood in
+                if mood.value(forKey: "isPinned") == nil {
+                    mood.isPinned = false
+                }
+            }
+            return moods
         } catch {
             Log.d("❌ Failed to fetch moods: \(error)")
             return []
         }
     }
+
 
     func deleteMood(_ mood: MoodEntry) {
         context.delete(mood)
@@ -83,5 +90,15 @@ final class MoodDataService {
         request.predicate = NSPredicate(format: "id == %@", id as CVarArg)
         request.fetchLimit = 1
         return (try? context.fetch(request))?.first
+    }
+    
+    func togglePin(_ entry: MoodEntry) {
+        entry.isPinned.toggle()
+        do {
+            try context.save()
+            Log.d("📌 Mood pin toggled")
+        } catch {
+            Log.d("❌ Failed to toggle pin: \(error)")
+        }
     }
 }

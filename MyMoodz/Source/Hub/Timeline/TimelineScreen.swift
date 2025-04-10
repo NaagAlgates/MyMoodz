@@ -47,24 +47,34 @@ struct TimelineScreen: View {
 
     
     var sortedFilteredEntries: [MoodEntry] {
-        let entries = filteredEntries
-        switch sortBy {
-        case .newest:
-            return entries.sorted { ($0.timestamp ?? Date()) > ($1.timestamp ?? Date()) }
-        case .oldest:
-            return entries.sorted { ($0.timestamp ?? Date()) < ($1.timestamp ?? Date()) }
-        case .editedNewest:
-            return entries.sorted { ($0.modifiedAt ?? Date.distantPast) > ($1.modifiedAt ?? Date.distantPast) }
-        case .editedOldest:
-            return entries.sorted { ($0.modifiedAt ?? Date.distantPast) < ($1.modifiedAt ?? Date.distantPast) }
-        case .moodLabel:
-            return entries.sorted {
-                Mood.label(forEmoji: $0.emoji ?? "") < Mood.label(forEmoji: $1.emoji ?? "")
+        let entries = filteredEntries.sorted { a, b in
+            // 1. Pinned always comes first
+            if a.isPinned && !b.isPinned {
+                return true
+            } else if !a.isPinned && b.isPinned {
+                return false
             }
-        case .emoji:
-            return entries.sorted { ($0.emoji ?? "") < ($1.emoji ?? "") }
+
+            // 2. Apply sort logic if both are pinned or both are unpinned
+            switch sortBy {
+            case .newest:
+                return (a.timestamp ?? Date()) > (b.timestamp ?? Date())
+            case .oldest:
+                return (a.timestamp ?? Date()) < (b.timestamp ?? Date())
+            case .editedNewest:
+                return (a.modifiedAt ?? .distantPast) > (b.modifiedAt ?? .distantPast)
+            case .editedOldest:
+                return (a.modifiedAt ?? .distantPast) < (b.modifiedAt ?? .distantPast)
+            case .moodLabel:
+                return Mood.label(forEmoji: a.emoji ?? "") < Mood.label(forEmoji: b.emoji ?? "")
+            case .emoji:
+                return (a.emoji ?? "") < (b.emoji ?? "")
+            }
         }
+
+        return entries
     }
+
 
 
 
@@ -83,7 +93,11 @@ struct TimelineScreen: View {
                                 MoodDataService.shared.deleteMood(entry)
                                 moodEntries = MoodDataService.shared.fetchAllMoods()
                                 refreshTrigger = UUID()
-                            }
+                            },
+                            onUpdate: {
+                               moodEntries = MoodDataService.shared.fetchAllMoods()
+                               refreshTrigger = UUID()
+                           }
                         )
                     }
                 }

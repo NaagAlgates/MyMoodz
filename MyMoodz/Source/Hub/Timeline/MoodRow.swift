@@ -4,7 +4,6 @@
 //
 //  Created by Nagaraj Alagusundaram on 10/4/2025.
 //
-import SwiftUI
 
 import SwiftUI
 
@@ -13,6 +12,8 @@ struct MoodRow: View {
     let now: Date
     let onEdit: () -> Void
     let onDelete: () -> Void
+    let onUpdate: () -> Void
+
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -36,7 +37,13 @@ struct MoodRow: View {
                 }
 
                 Spacer()
-
+                Button {
+                    MoodDataService.shared.togglePin(entry)
+                    onUpdate()
+                } label: {
+                    Image(systemName: entry.isPinned ? "pin.circle.fill" : "pin.circle")
+                        .foregroundColor(.orange)
+                }
                 Button(action: onEdit) {
                     Image(systemName: "pencil")
                 }
@@ -52,12 +59,16 @@ struct MoodRow: View {
                 Text(note)
                     .font(.body)
                     .padding(8)
-                    .background(Color.gray.opacity(0.1))
+                    .background(entry.isPinned ?Color.orange.opacity(0.2): Color.gray.opacity(0.1))
                     .cornerRadius(8)
             }
         }
         .padding()
-        .background(Color.white)
+        .background(entry.isPinned ? Color.orange.opacity(0.2) : Color.white)
+        .overlay(
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(entry.isPinned ? Color.orange.opacity(0.3) : Color.clear, lineWidth: 2)
+        )
         .cornerRadius(12)
         .shadow(color: Color.black.opacity(0.05), radius: 4, x: 0, y: 2)
         .padding(.horizontal)
