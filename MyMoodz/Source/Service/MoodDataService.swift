@@ -21,6 +21,7 @@ final class MoodDataService {
         mood.emoji = emoji
         mood.note = note
         mood.timestamp = Date()
+        mood.modifiedAt = nil
 
         do {
             try context.save()
@@ -67,7 +68,7 @@ final class MoodDataService {
     func updateMood(_ entry: MoodEntry, newNote: String?, newEmoji: String?) {
         entry.note = newNote
         entry.emoji = newEmoji
-        entry.timestamp = Date()
+        entry.modifiedAt = Date()
         do {
             try context.save()
             context.refresh(entry, mergeChanges: true)

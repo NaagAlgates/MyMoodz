@@ -10,7 +10,10 @@ struct TimelineScreen: View {
     @State private var moodEntries: [MoodEntry] = []
     @State private var searchText = ""
     @State private var selectedEntry: MoodEntryData?
-    @State private var refreshTrigger = UUID() // 👈 for forcing view update
+    @State private var now = Date()
+    @State private var refreshTrigger = UUID()
+
+    private let timer = Timer.publish(every: 30, on: .main, in: .common).autoconnect()
 
     var filteredEntries: [MoodEntry] {
         if searchText.isEmpty {
@@ -19,8 +22,8 @@ struct TimelineScreen: View {
 
         return moodEntries.filter { entry in
             let noteMatch = entry.note?.localizedCaseInsensitiveContains(searchText) ?? false
-            let labelMatch = Mood.label(forEmoji: entry.emoji ?? "").localizedCaseInsensitiveContains(searchText)
-            return noteMatch || labelMatch
+            let moodLabelMatch = Mood.label(forEmoji: entry.emoji ?? "").localizedCaseInsensitiveContains(searchText)
+            return noteMatch || moodLabelMatch
         }
     }
 
@@ -29,57 +32,22 @@ struct TimelineScreen: View {
             ScrollView {
                 LazyVStack(spacing: 12) {
                     ForEach(filteredEntries, id: \.self) { entry in
-                        VStack(alignment: .leading, spacing: 8) {
-                            HStack(alignment: .top) {
-                                Text(entry.emoji ?? "❓")
-                                    .font(.largeTitle)
-
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text(Mood.label(forEmoji: entry.emoji ?? ""))
-                                        .font(.headline)
-                                    Text(TimeAgoFormatter.format(entry.timestamp ?? Date()))
-                                        .font(.caption)
-                                        .foregroundColor(.gray)
-                                }
-
-                                Spacer()
-
-                                // Edit button
-                                Button {
-                                    selectedEntry = MoodEntryData(from: entry)
-                                } label: {
-                                    Image(systemName: "pencil")
-                                }
-                                .padding(.trailing, 4)
-
-                                // Delete button
-                                Button {
-                                    MoodDataService.shared.deleteMood(entry)
-                                    moodEntries = MoodDataService.shared.fetchAllMoods()
-                                    refreshTrigger = UUID()
-                                } label: {
-                                    Image(systemName: "trash")
-                                        .foregroundColor(.red)
-                                }
+                        MoodRow(
+                            entry: entry,
+                            now: now,
+                            onEdit: {
+                                selectedEntry = MoodEntryData(from: entry)
+                            },
+                            onDelete: {
+                                MoodDataService.shared.deleteMood(entry)
+                                moodEntries = MoodDataService.shared.fetchAllMoods()
+                                refreshTrigger = UUID()
                             }
-
-                            if let note = entry.note, !note.isEmpty {
-                                Text(note)
-                                    .font(.body)
-                                    .padding(8)
-                                    .background(Color.gray.opacity(0.1))
-                                    .cornerRadius(8)
-                            }
-                        }
-                        .padding()
-                        .background(Color.white)
-                        .cornerRadius(12)
-                        .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
-                        .padding(.horizontal)
+                        )
                     }
                 }
                 .padding(.top)
-                .id(refreshTrigger) // 👈 Force refresh after update
+                .id(refreshTrigger)
             }
             .background(Color(.systemGroupedBackground))
             .navigationTitle("Timeline")
@@ -94,6 +62,9 @@ struct TimelineScreen: View {
         }
         .onAppear {
             moodEntries = MoodDataService.shared.fetchAllMoods()
+        }
+        .onReceive(timer) { _ in
+            now = Date()
         }
     }
 }
