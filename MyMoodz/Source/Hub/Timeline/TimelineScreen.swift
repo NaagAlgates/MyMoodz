@@ -17,6 +17,39 @@ struct TimelineScreen: View {
     @State private var selectedDate: Date? = Date()
     @State private var isCalendarView: Bool = false
     @State private var dateIsAvailable: Bool = false
+    
+    var sortedDayEntries: [MoodEntry] {
+        guard let selected = selectedDate else { return [] }
+
+        return moodEntries
+            .filter {
+                guard let ts = $0.timestamp else { return false }
+                return Calendar.current.isDate(ts, inSameDayAs: selected)
+            }
+            .sorted { a, b in
+                if a.isPinned && !b.isPinned {
+                    return true
+                } else if !a.isPinned && b.isPinned {
+                    return false
+                }
+
+                switch sortBy {
+                case .newest:
+                    return (a.timestamp ?? Date()) > (b.timestamp ?? Date())
+                case .oldest:
+                    return (a.timestamp ?? Date()) < (b.timestamp ?? Date())
+                case .editedNewest:
+                    return (a.modifiedAt ?? .distantPast) > (b.modifiedAt ?? .distantPast)
+                case .editedOldest:
+                    return (a.modifiedAt ?? .distantPast) < (b.modifiedAt ?? .distantPast)
+                case .moodLabel:
+                    return Mood.label(forEmoji: a.emoji ?? "") < Mood.label(forEmoji: b.emoji ?? "")
+                case .emoji:
+                    return (a.emoji ?? "") < (b.emoji ?? "")
+                }
+            }
+    }
+
 
     private let timer = Timer.publish(every: 30, on: .main, in: .common).autoconnect()
     var moodDates: [Date] {
@@ -93,11 +126,8 @@ struct TimelineScreen: View {
                                 moodDates: moodEntries.compactMap { $0.timestamp }
                             )
                             .padding(.horizontal)
-                            let selectedDayEntries = moodEntries.filter {
-                                guard let ts = $0.timestamp, let selected = selectedDate else { return false }
-                                return Calendar.current.isDate(ts, inSameDayAs: selected)
-                            }
-                            .sorted { ($0.timestamp ?? Date()) > ($1.timestamp ?? Date()) }
+                            let selectedDayEntries = sortedDayEntries
+
 
                             if !selectedDayEntries.isEmpty {
                                 LazyVStack(spacing: 12) {

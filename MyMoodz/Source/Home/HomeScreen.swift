@@ -14,6 +14,7 @@ struct HomeScreen: View {
     @ObservedObject private var keyboard = KeyboardResponder()
     @State private var now = Date()
     private let timer = Timer.publish(every: 30, on: .main, in: .common).autoconnect()
+    @State private var showSuccessToast = false
 
 
     var body: some View {
@@ -38,12 +39,12 @@ struct HomeScreen: View {
                         HStack(spacing: 4) {
                             Text("Last mood:")
                                 .foregroundColor(.gray)
-                                .font(.footnote)
+                                .font(.sfRounded(14, weight: .regular))
                             Text(last.emoji ?? "")
-                                .font(.footnote)
+                                .font(.sfRounded(14, weight: .regular))
                             Text(TimeAgoFormatter.format(last.timestamp ?? Date(), relativeTo: now))
                                 .foregroundColor(.gray)
-                                .font(.footnote)
+                                .font(.sfRounded(14, weight: .regular))
 
                         }
                     }
@@ -60,6 +61,10 @@ struct HomeScreen: View {
                         Log.d("Mood: \(selectedMood), Note: \(note)")
                         selectedMood = ""
                         note = ""
+                        showSuccessToast = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            showSuccessToast = false
+                        }
                     }) {
                         Text("Save Mood")
                             .font(.sfRounded(16, weight: .semibold))
@@ -77,6 +82,9 @@ struct HomeScreen: View {
                     }
                     .disabled(selectedMood.isEmpty)
                     .padding(.horizontal)
+                    .scaleEffect(showSuccessToast ? 0.95 : 1.0)
+                    .animation(.easeInOut(duration: 0.15), value: showSuccessToast)
+
 
                     Spacer()
                 }
@@ -95,6 +103,23 @@ struct HomeScreen: View {
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
             now = Date()
         }
+        .overlay(
+            Group {
+                if showSuccessToast {
+                    Text("Mood saved successfully!")
+                        .font(.sfRounded(16, weight: .semibold))
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 10)
+                        .background(Color.green.opacity(0.95))
+                        .foregroundColor(.white)
+                        .cornerRadius(12)
+                        .transition(.move(edge: .top).combined(with: .opacity))
+                        .animation(.easeInOut(duration: 0.25), value: showSuccessToast)
+                        .padding(.top, 80)
+                }
+            },
+            alignment: .top
+        )
 
     }
 

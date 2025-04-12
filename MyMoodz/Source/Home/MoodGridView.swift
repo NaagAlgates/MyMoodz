@@ -55,6 +55,8 @@ struct MoodGridView: View {
                                 selectedMood = mood.emoji
                             }
                         }
+                        .scaleEffect(selectedMood == mood.emoji ? 1.2 : 1.0)
+                        .animation(.spring(response: 0.3, dampingFraction: 0.5), value: selectedMood)
 
                     Text(mood.label)
                         .font(.caption.weight(selectedMood == mood.emoji ? .bold : .regular))
