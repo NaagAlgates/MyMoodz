@@ -14,9 +14,14 @@ struct MoodHubScreen: View {
                     Label("Timeline", systemImage: "clock")
                 }
 
+            InsightsScreen()
+                .tabItem {
+                    Label("Insights", systemImage: "square.grid.2x2")
+                }
+            
             AnalyticsScreen()
                 .tabItem {
-                    Label("Insights", systemImage: "chart.bar")
+                    Label("Analytics", systemImage: "chart.bar.xaxis")
                 }
         }
     }

@@ -14,11 +14,14 @@ struct TimelineScreen: View {
     @State private var refreshTrigger = UUID()
     @State private var sortBy: SortOption = .newest
     @State private var filterBy: FilterOption = .all
+    @State private var selectedDate: Date? = Date()
+    @State private var isCalendarView: Bool = false
+    @State private var dateIsAvailable: Bool = false
 
-
-    
     private let timer = Timer.publish(every: 30, on: .main, in: .common).autoconnect()
-
+    var moodDates: [Date] {
+           moodEntries.compactMap { $0.timestamp }
+       }
     var filteredEntries: [MoodEntry] {
         let dateFiltered = moodEntries.filter { entry in
             guard let timestamp = entry.timestamp else { return false }
@@ -45,17 +48,14 @@ struct TimelineScreen: View {
         }
     }
 
-    
     var sortedFilteredEntries: [MoodEntry] {
         let entries = filteredEntries.sorted { a, b in
-            // 1. Pinned always comes first
             if a.isPinned && !b.isPinned {
                 return true
             } else if !a.isPinned && b.isPinned {
                 return false
             }
 
-            // 2. Apply sort logic if both are pinned or both are unpinned
             switch sortBy {
             case .newest:
                 return (a.timestamp ?? Date()) > (b.timestamp ?? Date())
@@ -75,69 +75,125 @@ struct TimelineScreen: View {
         return entries
     }
 
-
-
-
     var body: some View {
         NavigationView {
-            ScrollView {
-                LazyVStack(spacing: 12) {
-                    ForEach(sortedFilteredEntries, id: \.self) { entry in
-                        MoodRow(
-                            entry: entry,
-                            now: now,
-                            onEdit: {
-                                selectedEntry = MoodEntryData(from: entry)
-                            },
-                            onDelete: {
-                                MoodDataService.shared.deleteMood(entry)
-                                moodEntries = MoodDataService.shared.fetchAllMoods()
-                                refreshTrigger = UUID()
-                            },
-                            onUpdate: {
-                               moodEntries = MoodDataService.shared.fetchAllMoods()
-                               refreshTrigger = UUID()
-                           }
-                        )
+            VStack(spacing: 0) {
+                Picker("View Mode", selection: $isCalendarView) {
+                    Text("List View").tag(false)
+                    Text("Calendar View").tag(true)
+                }
+                .pickerStyle(SegmentedPickerStyle())
+                .padding(.horizontal)
+
+                if isCalendarView {
+                    ScrollView {
+                        VStack(spacing: 16) {
+                            CalendarView(
+                                selectedDate: $selectedDate,
+                                moodDates: moodEntries.compactMap { $0.timestamp }
+                            )
+                            .padding(.horizontal)
+                            let selectedDayEntries = moodEntries.filter {
+                                guard let ts = $0.timestamp, let selected = selectedDate else { return false }
+                                return Calendar.current.isDate(ts, inSameDayAs: selected)
+                            }
+                            .sorted { ($0.timestamp ?? Date()) > ($1.timestamp ?? Date()) }
+
+                            if !selectedDayEntries.isEmpty {
+                                LazyVStack(spacing: 12) {
+                                    ForEach(selectedDayEntries, id: \.self) { entry in
+                                        MoodRow(
+                                            entry: entry,
+                                            now: now,
+                                            onEdit: {
+                                                selectedEntry = MoodEntryData(from: entry)
+                                            },
+                                            onDelete: {
+                                                MoodDataService.shared.deleteMood(entry)
+                                                moodEntries = MoodDataService.shared.fetchAllMoods()
+                                                refreshTrigger = UUID()
+                                            },
+                                            onUpdate: {
+                                                moodEntries = MoodDataService.shared.fetchAllMoods()
+                                                refreshTrigger = UUID()
+                                            }
+                                        )
+                                    }
+                                }
+                                .padding(.horizontal)
+                                .padding(.top)
+                            } else {
+                                Text("No moods recorded on this day")
+                                    .foregroundColor(.gray)
+                                    .padding()
+                            }
+                        }
                     }
                 }
-                .padding(.top)
-                .id(refreshTrigger)
+                else {
+                    ScrollView {
+                        LazyVStack(spacing: 12) {
+                            ForEach(sortedFilteredEntries, id: \.self) { entry in
+                                MoodRow(
+                                    entry: entry,
+                                    now: now,
+                                    onEdit: {
+                                        selectedEntry = MoodEntryData(from: entry)
+                                    },
+                                    onDelete: {
+                                        MoodDataService.shared.deleteMood(entry)
+                                        moodEntries = MoodDataService.shared.fetchAllMoods()
+                                        refreshTrigger = UUID()
+                                    },
+                                    onUpdate: {
+                                        moodEntries = MoodDataService.shared.fetchAllMoods()
+                                        refreshTrigger = UUID()
+                                    }
+                                )
+                            }
+                        }
+                        .padding(.top)
+                        .id(refreshTrigger)
+                    }
+                }
             }
             .background(Color(.systemGroupedBackground))
-            .searchable(text: $searchText, prompt: "Search mood or note")
-            .textInputAutocapitalization(.never)
+            .if(!isCalendarView) { view in
+                view
+                    .searchable(text: $searchText, prompt: "Search mood or note")
+                    .textInputAutocapitalization(.never)
+            }
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    HStack(spacing: 16) {
-                        Menu {
-                            ForEach(SortOption.allCases) { option in
-                                Button(option.title) {
-                                    sortBy = option
+                if !isCalendarView {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        HStack(spacing: 16) {
+                            Menu {
+                                ForEach(SortOption.allCases) { option in
+                                    Button(option.title) {
+                                        sortBy = option
+                                    }
                                 }
+                            } label: {
+                                Image(systemName: "arrow.up.arrow.down.circle")
+                                    .imageScale(.large)
+                                    .foregroundColor(.blue)
                             }
-                        } label: {
-                            Image(systemName: "arrow.up.arrow.down.circle")
-                                .imageScale(.large)
-                                .foregroundColor(.blue)
-                        }
-
-                        Menu {
-                            ForEach(FilterOption.allCases) { option in
-                                Button(option.title) {
-                                    filterBy = option
+                            
+                            Menu {
+                                ForEach(FilterOption.allCases) { option in
+                                    Button(option.title) {
+                                        filterBy = option
+                                    }
                                 }
+                            } label: {
+                                Image(systemName: "line.3.horizontal.decrease.circle")
+                                    .imageScale(.large)
+                                    .foregroundColor(.blue)
                             }
-                        } label: {
-                            Image(systemName: "line.3.horizontal.decrease.circle")
-                                .imageScale(.large)
-                                .foregroundColor(.blue)
                         }
                     }
                 }
             }
-
-
         }
         .sheet(item: $selectedEntry) { entryData in
             EditMoodSheet(entryData: entryData) {
