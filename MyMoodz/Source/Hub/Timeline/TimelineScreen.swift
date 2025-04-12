@@ -111,117 +111,137 @@ struct TimelineScreen: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
-                Picker("View Mode", selection: $isCalendarView) {
+                Picker("View Mode", selection: Binding(
+                    get: { isCalendarView },
+                    set: { newValue in
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            isCalendarView = newValue
+                        }
+                    }
+                )) {
                     Text("List View").tag(false)
                     Text("Calendar View").tag(true)
                 }
                 .pickerStyle(SegmentedPickerStyle())
                 .padding(.horizontal)
-
-                if isCalendarView {
-                    ScrollView {
-                        VStack(spacing: 16) {
-                            CalendarView(
-                                selectedDate: $selectedDate,
-                                moodDates: moodEntries.compactMap { $0.timestamp }
-                            )
-                            .padding(.horizontal)
-                            let selectedDayEntries = sortedDayEntries
-
-
-                            if !selectedDayEntries.isEmpty {
-                                LazyVStack(spacing: 12) {
-                                    ForEach(selectedDayEntries, id: \.self) { entry in
-                                        MoodRow(
-                                            entry: entry,
-                                            now: now,
-                                            onEdit: {
-                                                selectedEntry = MoodEntryData(from: entry)
-                                            },
-                                            onDelete: {
-                                                MoodDataService.shared.deleteMood(entry)
-                                                moodEntries = MoodDataService.shared.fetchAllMoods()
-                                                refreshTrigger = UUID()
-                                            },
-                                            onUpdate: {
-                                                moodEntries = MoodDataService.shared.fetchAllMoods()
-                                                refreshTrigger = UUID()
-                                            }
-                                        )
-                                    }
-                                }
-                                .padding(.horizontal)
-                                .padding(.top)
-                            } else {
-                                Text("No moods recorded on this day")
-                                    .foregroundColor(.gray)
-                                    .padding()
-                            }
-                        }
-                    }
-                }
-                else {
-                    ScrollView {
-                        LazyVStack(spacing: 12) {
-                            ForEach(sortedFilteredEntries, id: \.self) { entry in
-                                MoodRow(
-                                    entry: entry,
-                                    now: now,
-                                    onEdit: {
-                                        selectedEntry = MoodEntryData(from: entry)
-                                    },
-                                    onDelete: {
-                                        MoodDataService.shared.deleteMood(entry)
-                                        moodEntries = MoodDataService.shared.fetchAllMoods()
-                                        refreshTrigger = UUID()
-                                    },
-                                    onUpdate: {
-                                        moodEntries = MoodDataService.shared.fetchAllMoods()
-                                        refreshTrigger = UUID()
-                                    }
+                ZStack{
+                    if isCalendarView {
+                        ScrollView {
+                            VStack(spacing: 16) {
+                                CalendarView(
+                                    selectedDate: $selectedDate,
+                                    moodDates: moodEntries.compactMap { $0.timestamp }
                                 )
+                                .padding(.horizontal)
+                                let selectedDayEntries = sortedDayEntries
+                                
+                                
+                                if !selectedDayEntries.isEmpty {
+                                    LazyVStack(spacing: 12) {
+                                        ForEach(selectedDayEntries, id: \.self) { entry in
+                                            MoodRow(
+                                                entry: entry,
+                                                now: now,
+                                                onEdit: {
+                                                    selectedEntry = MoodEntryData(from: entry)
+                                                },
+                                                onDelete: {
+                                                    MoodDataService.shared.deleteMood(entry)
+                                                    moodEntries = MoodDataService.shared.fetchAllMoods()
+                                                    refreshTrigger = UUID()
+                                                },
+                                                onUpdate: {
+                                                    moodEntries = MoodDataService.shared.fetchAllMoods()
+                                                    refreshTrigger = UUID()
+                                                }
+                                            )
+                                        }
+                                    }
+                                    .padding(.horizontal)
+                                    .padding(.top)
+                                } else {
+                                    Text("No moods recorded on this day")
+                                        .foregroundColor(.gray)
+                                        .padding()
+                                }
                             }
                         }
-                        .padding(.top)
-                        .id(refreshTrigger)
+                    }
+                    else {
+                        ScrollView {
+                            LazyVStack(spacing: 12) {
+                                ForEach(sortedFilteredEntries, id: \.self) { entry in
+                                    MoodRow(
+                                        entry: entry,
+                                        now: now,
+                                        onEdit: {
+                                            selectedEntry = MoodEntryData(from: entry)
+                                        },
+                                        onDelete: {
+                                            MoodDataService.shared.deleteMood(entry)
+                                            moodEntries = MoodDataService.shared.fetchAllMoods()
+                                            refreshTrigger = UUID()
+                                        },
+                                        onUpdate: {
+                                            moodEntries = MoodDataService.shared.fetchAllMoods()
+                                            refreshTrigger = UUID()
+                                        }
+                                    )
+                                }
+                            }
+                            .padding(.top)
+                            .id(refreshTrigger)
+                        }
                     }
                 }
             }
+            .animation(.easeInOut(duration: 0.3), value: isCalendarView)
             .background(Color(.systemGroupedBackground))
-            .if(!isCalendarView) { view in
-                view
-                    .searchable(text: $searchText, prompt: "Search mood or note")
-                    .textInputAutocapitalization(.never)
-            }
+            .overlay(
+                Group {
+                    if !isCalendarView {
+                        Color.clear // Needed to maintain layout
+                            .searchable(text: $searchText, prompt: "Search mood or note")
+                            .textInputAutocapitalization(.never)
+                            .transition(.opacity.combined(with: .move(edge: .top)))
+                            .animation(.easeInOut(duration: 0.3), value: isCalendarView)
+                    }
+                }
+            )
             .toolbar {
-                if !isCalendarView {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        HStack(spacing: 16) {
-                            Menu {
-                                ForEach(SortOption.allCases) { option in
-                                    Button(option.title) {
-                                        sortBy = option
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Group {
+                        if !isCalendarView {
+                            HStack(spacing: 16) {
+                                Menu {
+                                    ForEach(SortOption.allCases) { option in
+                                        Button(option.title) {
+                                            sortBy = option
+                                        }
                                     }
+                                } label: {
+                                    Image(systemName: "arrow.up.arrow.down.circle")
+                                        .imageScale(.large)
+                                        .foregroundColor(.blue)
                                 }
-                            } label: {
-                                Image(systemName: "arrow.up.arrow.down.circle")
-                                    .imageScale(.large)
-                                    .foregroundColor(.blue)
-                            }
-                            
-                            Menu {
-                                ForEach(FilterOption.allCases) { option in
-                                    Button(option.title) {
-                                        filterBy = option
+                                .transition(.opacity.combined(with: .move(edge: .trailing)))
+
+                                Menu {
+                                    ForEach(FilterOption.allCases) { option in
+                                        Button(option.title) {
+                                            filterBy = option
+                                        }
                                     }
+                                } label: {
+                                    Image(systemName: "line.3.horizontal.decrease.circle")
+                                        .imageScale(.large)
+                                        .foregroundColor(.blue)
                                 }
-                            } label: {
-                                Image(systemName: "line.3.horizontal.decrease.circle")
-                                    .imageScale(.large)
-                                    .foregroundColor(.blue)
+                                .transition(.opacity.combined(with: .move(edge: .trailing)))
                             }
                         }
                     }
+                    .animation(.easeInOut(duration: 0.3), value: isCalendarView)
                 }
             }
         }
