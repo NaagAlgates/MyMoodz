@@ -16,12 +16,7 @@ struct MoodHubScreen: View {
 
             InsightsScreen()
                 .tabItem {
-                    Label("Insights", systemImage: "square.grid.2x2")
-                }
-            
-            AnalyticsScreen()
-                .tabItem {
-                    Label("Analytics", systemImage: "chart.bar.xaxis")
+                    Label("Insights", systemImage: "chart.bar.xaxis")
                 }
         }
     }

@@ -10,6 +10,7 @@
 		D94B72422DA24DCA0018BD36 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = D94B72412DA24DC20018BD36 /* .gitignore */; };
 		D94B72442DA24F630018BD36 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = D94B72432DA24F630018BD36 /* Debug.xcconfig */; };
 		D94B72462DA24F8B0018BD36 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = D94B72452DA24F8B0018BD36 /* Release.xcconfig */; };
+		D94B75DA2DADDE8B0018BD36 /* DGCharts in Frameworks */ = {isa = PBXBuildFile; productRef = D94B75D92DADDE8B0018BD36 /* DGCharts */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D94B75DA2DADDE8B0018BD36 /* DGCharts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,6 +126,7 @@
 			);
 			name = "My Moodz";
 			packageProductDependencies = (
+				D94B75D92DADDE8B0018BD36 /* DGCharts */,
 			);
 			productName = "My Moodz";
 			productReference = D9AAD5FB2DA2039F009025CF /* My Moodz.app */;
@@ -207,6 +210,9 @@
 			);
 			mainGroup = D9AAD5F22DA2039F009025CF;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				D94B75D82DADDE8B0018BD36 /* XCRemoteSwiftPackageReference "Charts" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = D9AAD5FC2DA2039F009025CF /* Products */;
 			projectDirPath = "";
@@ -620,6 +626,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D94B75D82DADDE8B0018BD36 /* XCRemoteSwiftPackageReference "Charts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ChartsOrg/Charts.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D94B75D92DADDE8B0018BD36 /* DGCharts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D94B75D82DADDE8B0018BD36 /* XCRemoteSwiftPackageReference "Charts" */;
+			productName = DGCharts;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D9AAD5F32DA2039F009025CF /* Project object */;
 }
