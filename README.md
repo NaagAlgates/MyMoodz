@@ -123,6 +123,6 @@ See mood trends, frequencies, and emotional patterns
 
 ## 👤 Author
 
-Built with 💛 using SwiftUI by **[Your Name]**
+Built with 💛 using SwiftUI by [@NaagAlgates](https://github.com/NaagAlgates)
 
 > For questions, feature ideas, or contributions, feel free to reach out or open an issue!
