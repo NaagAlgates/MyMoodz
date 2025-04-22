@@ -10,7 +10,7 @@
 - 📝 **Add Notes**: Optionally write a short reflection when saving a mood.
 - 📋 **Timeline View**: Browse all mood logs in a searchable, scrollable list.
 - 🗓️ **Calendar View**: Tap into any day to view past entries on a calendar grid.
-- 🧠 **Insights Dashboard**: 
+- 🧠 **Insights Dashboard**:
   - Most frequent mood
   - Total mood entries
   - Longest streak
@@ -24,26 +24,30 @@
 
 ## 📱 Screenshots
 
-
 ### Mood Entry Screen
+
 Log a mood with one tap and optionally add a note  
-![Mood Entry](./assets/mood_entry.png)
+<img src="./Screenshots/1.png" alt="Mood Entry" height="500"/>
 
-### Timeline View  
+### Timeline View
+
 See your complete log of moods, with edit and delete options  
-![Timeline](./assets/timeline_view.png)
+<img src="./Screenshots/2.png" alt="Mood Entry" height="500"/>
 
-### Calendar View  
+### Calendar View
+
 Quickly visualize which days you logged your moods  
-![Calendar View](./assets/calendar_view.png)
+<img src="./Screenshots/3.png" alt="Mood Entry" height="500"/>
 
-### Mood Insights  
-See mood trends, frequencies, and emotional patterns  
-![Insights](./assets/insights_view.png)
+### Search and Sort
 
-### Search and Sort  
 Filter moods by time, name, emoji, and edit state  
-![Search and Filter](./assets/filter_view.png)
+<img src="./Screenshots/4.png" alt="Mood Entry" height="500"/>
+
+### Mood Insights
+
+See mood trends, frequencies, and emotional patterns  
+<img src="./Screenshots/5.png" alt="Mood Entry" height="500"/>
 
 ---
 
@@ -65,6 +69,7 @@ Filter moods by time, name, emoji, and edit state
 > 💡 This app is designed *exclusively for iOS* and does not support other platforms.
 
 ### Prerequisites
+
 - macOS with latest Xcode installed (Xcode 13+)
 - iPhone or iOS Simulator
 - CocoaPods or Swift Package Manager (if using third-party chart libraries)
@@ -72,6 +77,7 @@ Filter moods by time, name, emoji, and edit state
 ### Steps
 
 1. **Clone the Repository**
+
    ```bash
    git clone https://github.com/yourusername/MyMoodz.git
    cd MyMoodz
