@@ -17,6 +17,7 @@ struct HomeScreen: View {
     @State private var showSuccessToast = false
 
 
+
     var body: some View {
         NavigationView {
             ZStack {
@@ -31,6 +32,7 @@ struct HomeScreen: View {
                             ToolbarItem(placement: .navigationBarTrailing) {
                                 NavigationLink(destination: MoodHubScreen()) {
                                     Image(systemName: "rectangle.grid.2x2")
+                                        .foregroundColor(SelectedMoodColor.color(for: selectedMood))
                                 }
                             }
                         }
@@ -52,7 +54,7 @@ struct HomeScreen: View {
                     MoodGridView(selectedMood: $selectedMood, moods: Mood.all)
                         .padding(.horizontal)
 
-                    NoteInputView(note: $note)
+                    NoteInputView(note: $note, noteColorProxy: selectedMood)
                         .padding(.horizontal)
 
                     Button(action: {
@@ -74,7 +76,7 @@ struct HomeScreen: View {
                             .background(
                                 selectedMood.isEmpty
                                 ? Color.gray.opacity(0.4)
-                                : Color.blue
+                                : SelectedMoodColor.color(for: selectedMood)
                             )
                             .cornerRadius(12)
                             .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
@@ -84,8 +86,7 @@ struct HomeScreen: View {
                     .padding(.horizontal)
                     .scaleEffect(showSuccessToast ? 0.95 : 1.0)
                     .animation(.easeInOut(duration: 0.15), value: showSuccessToast)
-
-
+                    
                     Spacer()
                 }
                 .padding()
@@ -106,7 +107,12 @@ struct HomeScreen: View {
         .overlay(
             Group {
                 if showSuccessToast {
-                    Text("Mood saved successfully!")
+                    HStack(spacing: 8) {
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundColor(.white)
+                            Text("Mood saved successfully!")
+                                .font(.sfRounded(16, weight: .semibold))
+                        }
                         .font(.sfRounded(16, weight: .semibold))
                         .padding(.horizontal, 16)
                         .padding(.vertical, 10)

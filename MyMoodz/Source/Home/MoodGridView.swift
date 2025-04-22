@@ -46,7 +46,10 @@ struct MoodGridView: View {
                     Text(mood.emoji)
                         .font(.largeTitle)
                         .padding()
-                        .background(selectedMood == mood.emoji ? Color.blue.opacity(0.3) : Color.clear)
+                        .background(
+                            Circle()
+                                .fill(SelectedMoodColor.color(for: mood.emoji).opacity(selectedMood == mood.emoji ? 0.4 : 0.15))
+                        )
                         .clipShape(Circle())
                         .onTapGesture {
                             if selectedMood == mood.emoji {
