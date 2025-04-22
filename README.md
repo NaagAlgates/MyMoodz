@@ -24,30 +24,11 @@
 
 ## 📱 Screenshots
 
-### Mood Entry Screen
-
-Log a mood with one tap and optionally add a note  
-<img src="./Screenshots/1.png" alt="Mood Entry" height="500"/>
-
-### Timeline View
-
-See your complete log of moods, with edit and delete options  
-<img src="./Screenshots/2.png" alt="Mood Entry" height="500"/>
-
-### Calendar View
-
-Quickly visualize which days you logged your moods  
-<img src="./Screenshots/3.png" alt="Mood Entry" height="500"/>
-
-### Search and Sort
-
-Filter moods by time, name, emoji, and edit state  
-<img src="./Screenshots/4.png" alt="Mood Entry" height="500"/>
-
-### Mood Insights
-
-See mood trends, frequencies, and emotional patterns  
-<img src="./Screenshots/5.png" alt="Mood Entry" height="500"/>
+<img src="./Screenshots/1-left.png" alt="Mood Entry" height="500"/>
+<img src="./Screenshots/2-left.png" alt="Mood Entry" height="500"/>
+<img src="./Screenshots/3-left.png" alt="Mood Entry" height="500"/>
+<img src="./Screenshots/4-left.png" alt="Mood Entry" height="500"/>
+<img src="./Screenshots/5-left.png" alt="Mood Entry" height="500"/>
 
 ---
 
@@ -55,9 +36,8 @@ See mood trends, frequencies, and emotional patterns
 
 - **Language**: Swift 5
 - **UI Framework**: SwiftUI
-- **Local Storage**: Core Data
-- **Charts & Visuals**: Custom SwiftUI charts + DG Chats
-- **Architecture**: MVVM
+- **Local Storage**: CoreData
+- **Charts & Visuals**: DGChats
 - **Build Schemes**:
   - `[DEV]`: For development/testing
   - `[PROD]`: Production-ready configuration
@@ -66,20 +46,19 @@ See mood trends, frequencies, and emotional patterns
 
 ## ⚙️ Installation & Running Locally
 
-> 💡 This app is designed *exclusively for iOS* and does not support other platforms.
+> 💡 This app is designed *exclusively for iOS* and does not support other platforms yet.
 
 ### Prerequisites
 
 - macOS with latest Xcode installed (Xcode 13+)
 - iPhone or iOS Simulator
-- CocoaPods or Swift Package Manager (if using third-party chart libraries)
 
 ### Steps
 
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/yourusername/MyMoodz.git
+   git clone https://github.com/NaagAlgates/MyMoodz.git
    cd MyMoodz
    ```
 
