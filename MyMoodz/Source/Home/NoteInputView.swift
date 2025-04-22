@@ -9,6 +9,7 @@ import SwiftUI
 
 struct NoteInputView: View {
     @Binding var note: String
+    var noteColorProxy: String
     @FocusState private var isFocused: Bool
 
     var body: some View {
@@ -16,7 +17,13 @@ struct NoteInputView: View {
             .padding(12)
             .background(
                 RoundedRectangle(cornerRadius: 10)
-                    .stroke(isFocused ? Color.blue : Color.gray.opacity(0.4), lineWidth: 1)
+                    .stroke(
+                        isFocused
+                        ? SelectedMoodColor.color(for: noteColorProxy).opacity(0.8)
+                        : Color.gray.opacity(0.4),
+                        lineWidth: 1
+                    )
+
             )
             .frame(minHeight: 100, maxHeight: 200)
             .focused($isFocused)

@@ -15,6 +15,12 @@ struct CalendarView: View {
 
     @State private var currentMonthOffset = 0
     @State private var currentYearOffset = 0
+    
+    let formatter: DateFormatter = {
+        let df = DateFormatter()
+        df.dateFormat = "LLLL yyyy" // Example: April 2025
+        return df
+    }()
 
     var displayedDate: Date {
         calendar.date(byAdding: .month, value: currentMonthOffset + currentYearOffset * 12, to: baseDate) ?? baseDate
@@ -34,7 +40,7 @@ struct CalendarView: View {
 
                 Spacer()
 
-                Text("\(calendar.monthSymbols[calendar.component(.month, from: displayedDate) - 1]) \(calendar.component(.year, from: displayedDate))")
+                Text(formatter.string(from: displayedDate))
                     .font(.title2)
                     .fontWeight(.semibold)
 
