@@ -19,6 +19,10 @@ struct MoodHubScreen: View {
                 .tabItem {
                     Label("Insights", systemImage: "chart.bar.xaxis")
                 }
+            SettingsScreen()
+                .tabItem {
+                    Label("Settings", systemImage: "gear")
+                }
         }
         .accentColor(moodManager.selectedColor)
         .animation(.easeInOut(duration: 0.3), value: moodManager.selectedColor)
