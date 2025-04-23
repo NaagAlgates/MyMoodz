@@ -32,7 +32,6 @@ struct Mood: Identifiable, Equatable {
         .init(emoji: "🤗", label: "Hopeful")
     ]
 }
-
 struct MoodGridView: View {
     @Binding var selectedMood: String
     let moods: [Mood]
@@ -52,11 +51,7 @@ struct MoodGridView: View {
                         )
                         .clipShape(Circle())
                         .onTapGesture {
-                            if selectedMood == mood.emoji {
-                                selectedMood = ""
-                            } else {
-                                selectedMood = mood.emoji
-                            }
+                            selectedMood = selectedMood == mood.emoji ? "" : mood.emoji
                         }
                         .scaleEffect(selectedMood == mood.emoji ? 1.2 : 1.0)
                         .animation(.spring(response: 0.3, dampingFraction: 0.5), value: selectedMood)

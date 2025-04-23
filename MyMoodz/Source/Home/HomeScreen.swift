@@ -9,14 +9,13 @@ import SwiftUI
 
 struct HomeScreen: View {
     @State private var lastMoodEntry: MoodEntry?
-    @State private var selectedMood: String = ""
+    @ObservedObject var moodManager = MoodManager.shared
     @State private var note = ""
     @ObservedObject private var keyboard = KeyboardResponder()
     @State private var now = Date()
-    private let timer = Timer.publish(every: 30, on: .main, in: .common).autoconnect()
     @State private var showSuccessToast = false
 
-
+    private let timer = Timer.publish(every: 30, on: .main, in: .common).autoconnect()
 
     var body: some View {
         NavigationView {
@@ -26,42 +25,58 @@ struct HomeScreen: View {
                     .contentShape(Rectangle())
 
                 VStack(spacing: 20) {
+
                     Text("How are you feeling?")
                         .font(.sfRounded(22, weight: .semibold))
+                        .foregroundColor(moodManager.selectedColor)
+                        .animation(.easeInOut(duration: 0.3), value: moodManager.selectedColor)
                         .toolbar {
                             ToolbarItem(placement: .navigationBarTrailing) {
                                 NavigationLink(destination: MoodHubScreen()) {
-                                    Image(systemName: "rectangle.grid.2x2")
-                                        .foregroundColor(SelectedMoodColor.color(for: selectedMood))
+                                    Image(systemName: "circle.grid.2x2")
+                                        .resizable()
+                                        .font(.title2)
+                                        .aspectRatio(contentMode: .fit)
+                                        .foregroundColor(moodManager.selectedColor)
+                                        .animation(.easeInOut(duration: 0.3), value: moodManager.selectedColor)
                                 }
                             }
                         }
 
+                    // Last mood entry
                     if let last = lastMoodEntry {
                         HStack(spacing: 4) {
                             Text("Last mood:")
                                 .foregroundColor(.gray)
-                                .font(.sfRounded(14, weight: .regular))
                             Text(last.emoji ?? "")
-                                .font(.sfRounded(14, weight: .regular))
                             Text(TimeAgoFormatter.format(last.timestamp ?? Date(), relativeTo: now))
                                 .foregroundColor(.gray)
-                                .font(.sfRounded(14, weight: .regular))
-
                         }
+                        .font(.sfRounded(14, weight: .regular))
                     }
 
-                    MoodGridView(selectedMood: $selectedMood, moods: Mood.all)
+                    // Mood Picker
+                    MoodGridView(
+                        selectedMood: Binding<String>(
+                            get: { moodManager.selectedEmoji ?? "" },
+                            set: { moodManager.selectedEmoji = $0.isEmpty ? nil : $0 }
+                        ),
+                        moods: Mood.all
+                    )
+                    .padding(.horizontal)
+
+                    // Note Input
+                    NoteInputView(note: $note, noteColorProxy: moodManager.selectedEmoji ?? "")
                         .padding(.horizontal)
 
-                    NoteInputView(note: $note, noteColorProxy: selectedMood)
-                        .padding(.horizontal)
-
+                    // Save Mood Button
                     Button(action: {
-                        MoodDataService.shared.saveMood(emoji: selectedMood, note: note)
-                        lastMoodEntry = MoodDataService.shared.fetchLatestMood()
-                        Log.d("Mood: \(selectedMood), Note: \(note)")
-                        selectedMood = ""
+                        if let emoji = moodManager.selectedEmoji {
+                            MoodDataService.shared.saveMood(emoji: emoji, note: note)
+                            lastMoodEntry = MoodDataService.shared.fetchLatestMood()
+                            Log.d("Mood: \(emoji), Note: \(note)")
+                        }
+                        moodManager.selectedEmoji = nil
                         note = ""
                         showSuccessToast = true
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -74,44 +89,36 @@ struct HomeScreen: View {
                             .frame(maxWidth: .infinity)
                             .padding()
                             .background(
-                                selectedMood.isEmpty
+                                (moodManager.selectedEmoji ?? "").isEmpty
                                 ? Color.gray.opacity(0.4)
-                                : SelectedMoodColor.color(for: selectedMood)
+                                : moodManager.selectedColor
                             )
                             .cornerRadius(12)
                             .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
-                            .animation(.easeInOut(duration: 0.2), value: selectedMood)
                     }
-                    .disabled(selectedMood.isEmpty)
+                    .disabled((moodManager.selectedEmoji ?? "").isEmpty)
                     .padding(.horizontal)
-                    .scaleEffect(showSuccessToast ? 0.95 : 1.0)
-                    .animation(.easeInOut(duration: 0.15), value: showSuccessToast)
-                    
+
                     Spacer()
                 }
                 .padding()
-                .offset(y: -keyboard.currentHeight * 0.1) // 👈 Smooth keyboard shift
+                .offset(y: -keyboard.currentHeight * 0.1)
                 .animation(.easeInOut(duration: 0.3), value: keyboard.currentHeight)
             }
-            .hideKeyboardOnTap()
-        }
-        .onAppear {
-            lastMoodEntry = MoodDataService.shared.fetchLatestMood()
-        }
-        .onReceive(timer) { _ in
-            now = Date()
-        }
-        .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
-            now = Date()
-        }
-        .overlay(
-            Group {
-                if showSuccessToast {
-                    HStack(spacing: 8) {
+            .onAppear {
+                lastMoodEntry = MoodDataService.shared.fetchLatestMood()
+            }
+            .onReceive(timer) { _ in now = Date() }
+            .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+                now = Date()
+            }
+            .overlay(
+                Group {
+                    if showSuccessToast {
+                        HStack(spacing: 8) {
                             Image(systemName: "checkmark.circle.fill")
                                 .foregroundColor(.white)
                             Text("Mood saved successfully!")
-                                .font(.sfRounded(16, weight: .semibold))
                         }
                         .font(.sfRounded(16, weight: .semibold))
                         .padding(.horizontal, 16)
@@ -120,13 +127,12 @@ struct HomeScreen: View {
                         .foregroundColor(.white)
                         .cornerRadius(12)
                         .transition(.move(edge: .top).combined(with: .opacity))
-                        .animation(.easeInOut(duration: 0.25), value: showSuccessToast)
                         .padding(.top, 80)
-                }
-            },
-            alignment: .top
-        )
-
+                    }
+                },
+                alignment: .top
+            )
+            .hideKeyboardOnTap()
+        }
     }
-
 }

@@ -128,6 +128,12 @@ struct CalendarView: View {
             .padding()
         }
         .padding(.top)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color(.systemBackground))
+                .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 4)
+        )
+        .padding(.top)
         .onAppear {
             baseDate = selectedDate ?? Date()
         }

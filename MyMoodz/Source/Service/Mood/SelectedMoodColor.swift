@@ -22,7 +22,7 @@ struct SelectedMoodColor {
         case "🥰": return .cyan
         case "🫥": return .indigo
         case "🤗": return .green
-        default: return .gray
+        default: return .black
         }
     }
 }
