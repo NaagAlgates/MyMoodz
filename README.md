@@ -3,6 +3,8 @@
 **MyMoodz** is a SwiftUI-based mobile mood tracking app that helps users become more mindful of their emotional well-being. Track your feelings, view past entries, and gain beautiful insights—all from your iPhone.
 
 ---
+[![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.me/oznaag)
+---
 
 ## ✨ Features
 
@@ -105,3 +107,9 @@
 Built with 💛 using SwiftUI by [@NaagAlgates](https://github.com/NaagAlgates)
 
 > For questions, feature ideas, or contributions, feel free to reach out or open an issue!
+
+## 💖 Support MyMoodz
+
+If you enjoy using MyMoodz and would like to support its continued development, you can make a small donation via PayPal. Every bit helps!
+
+👉 [Donate via PayPal](https://www.paypal.me/oznaag)

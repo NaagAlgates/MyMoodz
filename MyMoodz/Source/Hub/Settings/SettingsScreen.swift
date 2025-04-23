@@ -14,9 +14,11 @@ struct SettingsScreen: View {
     
     let whatsNewURL = URL(string: "https://github.com/NaagAlgates/MyMoodz/releases")!
     let rateAppURL = URL(string: "https://www.nagaraj.com.au")!
-    let privacyPolicyURL = URL(string: "https://www.nagaraj.com.au")!
+    let privacyPolicyURL = URL(string: "https://www.mymoodz.nagaraj.com.au/privacy")!
     let openSourceURL = URL(string: "https://github.com/NaagAlgates/MyMoodz")!
-    let licensesURL = URL(string: "https://www.nagaraj.com.au")!
+    let licensesURL = URL(string: "https://www.mymoodz.nagaraj.com.au/licenses")!
+    let onBoardingURL = URL(string: "https://www.mymoodz.nagaraj.com.au/onboarding")!
+    let appFeaturesURL = URL(string: "https://www.mymoodz.nagaraj.com.au/features")!
 
 
     var body: some View {
@@ -43,7 +45,7 @@ struct SettingsScreen: View {
                         )
                     }
 
-                    Text("This app is developed by one person and with the help of generative AI. I appreciate your feedback and will try to improve the features and code")
+                    Text("This app is developed by one person and with the help of generative AI. I appreciate your feedback and it will try to improve the quality of the app")
                         .font(.footnote)
                         .foregroundColor(.secondary)
                         .padding(.top, 4)
@@ -70,11 +72,11 @@ struct SettingsScreen: View {
 
 
                 Section(header: Text("General")) {
-                    NavigationLink(destination: Text("Onboarding")) {
-                        Label("Onboarding", systemImage: "book")
+                    Link(destination: appFeaturesURL) {
+                        Label("App Features", systemImage: "sparkle")
                     }
-                    NavigationLink(destination: Text("Statistics")) {
-                        Label("Statistics for Nerds", systemImage: "chart.pie")
+                    Link(destination: onBoardingURL) {
+                        Label("Onboarding", systemImage: "book")
                     }
                     Link(destination: licensesURL) {
                         Label("Licenses", systemImage: "doc.plaintext")
