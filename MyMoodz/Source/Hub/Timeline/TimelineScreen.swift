@@ -7,6 +7,7 @@
 import SwiftUI
 
 struct TimelineScreen: View {
+    @ObservedObject var moodManager = MoodManager.shared
     @State private var moodEntries: [MoodEntry] = []
     @State private var searchText = ""
     @State private var selectedEntry: MoodEntryData?
@@ -137,28 +138,37 @@ struct TimelineScreen: View {
                                 
                                 
                                 if !selectedDayEntries.isEmpty {
-                                    LazyVStack(spacing: 12) {
-                                        ForEach(selectedDayEntries, id: \.self) { entry in
-                                            MoodRow(
-                                                entry: entry,
-                                                now: now,
-                                                onEdit: {
-                                                    selectedEntry = MoodEntryData(from: entry)
-                                                },
-                                                onDelete: {
-                                                    MoodDataService.shared.deleteMood(entry)
-                                                    moodEntries = MoodDataService.shared.fetchAllMoods()
-                                                    refreshTrigger = UUID()
-                                                },
-                                                onUpdate: {
-                                                    moodEntries = MoodDataService.shared.fetchAllMoods()
-                                                    refreshTrigger = UUID()
-                                                }
-                                            )
+                                    VStack(spacing: 4){
+                                        if let selected = selectedDate {
+                                            Text("\(formattedDate(selected)):")
+                                                .font(.title3)
+                                                .frame(maxWidth: .infinity, alignment: .leading)
+                                                .fontWeight(.semibold)
+                                                .foregroundColor(moodManager.selectedColor)
+                                                .padding()
+                                                .animation(.easeInOut, value: selectedDate)
+                                        }
+                                        LazyVStack(spacing: 12) {
+                                            ForEach(selectedDayEntries, id: \.self) { entry in
+                                                MoodRow(
+                                                    entry: entry,
+                                                    now: now,
+                                                    onEdit: {
+                                                        selectedEntry = MoodEntryData(from: entry)
+                                                    },
+                                                    onDelete: {
+                                                        MoodDataService.shared.deleteMood(entry)
+                                                        moodEntries = MoodDataService.shared.fetchAllMoods()
+                                                        refreshTrigger = UUID()
+                                                    },
+                                                    onUpdate: {
+                                                        moodEntries = MoodDataService.shared.fetchAllMoods()
+                                                        refreshTrigger = UUID()
+                                                    }
+                                                )
+                                            }
                                         }
                                     }
-                                    .padding(.horizontal)
-                                    .padding(.top)
                                 } else {
                                     Text("No moods recorded on this day")
                                         .foregroundColor(.gray)
@@ -222,7 +232,7 @@ struct TimelineScreen: View {
                                 } label: {
                                     Image(systemName: "arrow.up.arrow.down.circle")
                                         .imageScale(.large)
-                                        .foregroundColor(.blue)
+                                        .foregroundColor(moodManager.selectedColor.opacity(0.85))
                                 }
                                 .transition(.opacity.combined(with: .move(edge: .trailing)))
 
@@ -235,7 +245,7 @@ struct TimelineScreen: View {
                                 } label: {
                                     Image(systemName: "line.3.horizontal.decrease.circle")
                                         .imageScale(.large)
-                                        .foregroundColor(.blue)
+                                        .foregroundColor(moodManager.selectedColor.opacity(0.85))
                                 }
                                 .transition(.opacity.combined(with: .move(edge: .trailing)))
                             }
@@ -258,5 +268,11 @@ struct TimelineScreen: View {
         .onReceive(timer) { _ in
             now = Date()
         }
+    }
+    
+    func formattedDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd MMM yyyy"
+        return formatter.string(from: date)
     }
 }

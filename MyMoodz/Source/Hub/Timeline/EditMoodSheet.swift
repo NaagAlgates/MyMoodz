@@ -26,9 +26,6 @@ struct EditMoodSheet: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 20) {
-                    Text("Edit Mood")
-                        .font(.title2)
-                        .fontWeight(.semibold)
 
                     Text("Select Mood")
                         .font(.subheadline)

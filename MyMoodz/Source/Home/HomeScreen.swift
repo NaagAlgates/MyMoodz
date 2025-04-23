@@ -26,22 +26,25 @@ struct HomeScreen: View {
 
                 VStack(spacing: 20) {
 
-                    Text("How are you feeling?")
-                        .font(.sfRounded(22, weight: .semibold))
-                        .foregroundColor(moodManager.selectedColor)
-                        .animation(.easeInOut(duration: 0.3), value: moodManager.selectedColor)
-                        .toolbar {
-                            ToolbarItem(placement: .navigationBarTrailing) {
-                                NavigationLink(destination: MoodHubScreen()) {
-                                    Image(systemName: "circle.grid.2x2")
-                                        .resizable()
-                                        .font(.title2)
-                                        .aspectRatio(contentMode: .fit)
-                                        .foregroundColor(moodManager.selectedColor)
-                                        .animation(.easeInOut(duration: 0.3), value: moodManager.selectedColor)
-                                }
+                    ZStack {
+                        Text("How are you feeling?")
+                            .font(.sfRounded(22, weight: .semibold))
+                            .foregroundColor(moodManager.selectedColor)
+                            .animation(.easeInOut(duration: 0.3), value: moodManager.selectedColor)
+
+                        HStack {
+                            Spacer()
+                            NavigationLink(destination: MoodHubScreen()) {
+                                Image(systemName: "circle.grid.2x2")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 22, height: 22)
+                                    .foregroundColor(moodManager.selectedColor)
+                                    .animation(.easeInOut(duration: 0.3), value: moodManager.selectedColor)
                             }
                         }
+                    }
+
 
                     // Last mood entry
                     if let last = lastMoodEntry {
@@ -134,5 +137,6 @@ struct HomeScreen: View {
             )
             .hideKeyboardOnTap()
         }
+        .tint(moodManager.selectedColor)
     }
 }

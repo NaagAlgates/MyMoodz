@@ -7,6 +7,7 @@
 import SwiftUI
 
 struct MoodHubScreen: View {
+    @ObservedObject var moodManager = MoodManager.shared
     var body: some View {
         TabView {
             TimelineScreen()
@@ -19,5 +20,7 @@ struct MoodHubScreen: View {
                     Label("Insights", systemImage: "chart.bar.xaxis")
                 }
         }
+        .accentColor(moodManager.selectedColor)
+        .animation(.easeInOut(duration: 0.3), value: moodManager.selectedColor)
     }
 }

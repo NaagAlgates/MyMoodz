@@ -28,7 +28,7 @@ struct Mood: Identifiable, Equatable {
         .init(emoji: "😰", label: "Anxious"),
         .init(emoji: "🤣", label: "Excited"),
         .init(emoji: "🥰", label: "Loved"),
-        .init(emoji: "🫥", label: "Confused"),
+        .init(emoji: "🤔", label: "Confused"),
         .init(emoji: "🤗", label: "Hopeful")
     ]
 }
