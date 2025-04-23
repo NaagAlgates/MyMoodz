@@ -12,6 +12,7 @@
 		D94B72462DA24F8B0018BD36 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = D94B72452DA24F8B0018BD36 /* Release.xcconfig */; };
 		D94B75DA2DADDE8B0018BD36 /* DGCharts in Frameworks */ = {isa = PBXBuildFile; productRef = D94B75D92DADDE8B0018BD36 /* DGCharts */; };
 		D9B945852DB75A120099E665 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = D9B945842DB75A0A0099E665 /* README.md */; };
+		D9B946022DB8CE9F0099E665 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = D9B946012DB8CE990099E665 /* LICENSE */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +40,7 @@
 		D9AAD60B2DA203A2009025CF /* My MoodzTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "My MoodzTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9AAD6152DA203A2009025CF /* My MoodzUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "My MoodzUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9B945842DB75A0A0099E665 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		D9B946012DB8CE990099E665 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -90,6 +92,7 @@
 			children = (
 				D94B72432DA24F630018BD36 /* Debug.xcconfig */,
 				D94B72452DA24F8B0018BD36 /* Release.xcconfig */,
+				D9B946012DB8CE990099E665 /* LICENSE */,
 				D94B72412DA24DC20018BD36 /* .gitignore */,
 				D9B945842DB75A0A0099E665 /* README.md */,
 				D9AAD5FD2DA2039F009025CF /* MyMoodz */,
@@ -233,6 +236,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D9B946022DB8CE9F0099E665 /* LICENSE in Resources */,
 				D94B72462DA24F8B0018BD36 /* Release.xcconfig in Resources */,
 				D94B72442DA24F630018BD36 /* Debug.xcconfig in Resources */,
 				D94B72422DA24DCA0018BD36 /* .gitignore in Resources */,
@@ -408,6 +412,7 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = PROD;
 				SWIFT_COMPILATION_MODE = wholemodule;
 			};
 			name = Release;
@@ -441,7 +446,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jcube.mymoodz;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -483,7 +488,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jcube.mymoodz;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
