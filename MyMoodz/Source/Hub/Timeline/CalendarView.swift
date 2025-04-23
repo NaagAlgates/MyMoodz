@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct CalendarView: View {
+    @ObservedObject var moodManager = MoodManager.shared
     @State private var baseDate: Date = Date()
     @Environment(\.dismiss) var dismiss
     @Binding var selectedDate: Date?
@@ -43,6 +44,7 @@ struct CalendarView: View {
                 Text(formatter.string(from: displayedDate))
                     .font(.title2)
                     .fontWeight(.semibold)
+                    .foregroundColor(moodManager.selectedColor)
 
                 Spacer()
 
@@ -83,7 +85,7 @@ struct CalendarView: View {
                 ForEach(reorderedWeekdays, id: \.self) { weekday in
                     Text(weekday)
                         .frame(maxWidth: .infinity)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(moodManager.selectedColor)
                         .font(.caption)
                 }
             }
@@ -95,7 +97,7 @@ struct CalendarView: View {
                         ZStack {
                             if isToday(dayDate) || dayIsSelected(dayDate) || isMoodDay(dayDate) {
                                 RoundedRectangle(cornerRadius: 10)
-                                    .fill(isToday(dayDate) ? Color.blue.opacity(0.2) : Color.white.opacity(0.8))
+                                    .fill(isToday(dayDate) ? moodManager.selectedColor.opacity(0.2) : Color.white.opacity(0.8))
                                     .shadow(color: Color.white.opacity(0.2), radius: 2, x: 0, y: 2)
                                     .frame(width: 40, height: 40)
                             }
@@ -107,7 +109,7 @@ struct CalendarView: View {
 
                                 if isMoodDay(dayDate) {
                                     Circle()
-                                        .fill(Color.blue)
+                                        .fill(moodManager.selectedColor)
                                         .frame(width: 6, height: 6)
                                 }
                             }
@@ -127,6 +129,12 @@ struct CalendarView: View {
             }
             .padding()
         }
+        .padding(.top)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color(.systemBackground))
+                .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 4)
+        )
         .padding(.top)
         .onAppear {
             baseDate = selectedDate ?? Date()

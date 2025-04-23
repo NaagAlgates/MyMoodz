@@ -142,47 +142,103 @@ struct InsightsScreen: View {
                     .foregroundColor(.blue)
                 }
                 .padding()
-                .background(Color(.systemGray6))
                 .cornerRadius(12)
+                .padding(.horizontal)
+                .background(
+                    RoundedRectangle(cornerRadius: 16)
+                        .fill(Color(.systemGray6))
+                        .shadow(color: Color.brown.opacity(0.1), radius: 8, x: 0, y: 4)
+                )
                 .padding(.horizontal)
 
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), spacing: 16) {
                     StatCard(title: "Most Frequent", value: moodStats.mostFrequentMood?.emoji ?? "🙂")
+                        .background(
+                            RoundedRectangle(cornerRadius: 16)
+                                .fill(Color(.systemBackground))
+                                .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 4)
+                        )
                     StatCard(title: "Total Moods", value: "\(moodStats.totalEntries) 🎉")
+                        .background(
+                            RoundedRectangle(cornerRadius: 16)
+                                .fill(Color(.systemBackground))
+                                .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 4)
+                        )
                     StatCard(title: "Longest Streak", value: "\(moodStats.longestStreak) 🔥")
+                        .background(
+                            RoundedRectangle(cornerRadius: 16)
+                                .fill(Color(.systemBackground))
+                                .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 4)
+                        )
                 }
                 .padding(.horizontal)
 
-                Text("Mood Entries Per Day")
-                    .font(.headline)
-                    .padding(.horizontal)
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Mood Entries Per Day")
+                        .font(.headline)
+                        .padding(.top)
 
-                BarChartViewWrapper(data: moodStats.moodsPerDay)
-                    .frame(height: 200)
-                    .padding(.horizontal)
+                    BarChartViewWrapper(data: moodStats.moodsPerDay)
+                        .frame(height: 200)
+                }
+                .padding()
+                .background(
+                    RoundedRectangle(cornerRadius: 16)
+                        .fill(Color(.systemBackground))
+                        .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 4)
+                )
+                .padding(.horizontal)
                 
-                Text("Mood Distribution")
-                    .font(.headline)
-                    .padding(.horizontal)
-                                
-                PieChartViewWrapper(data: moodStats.moodCounts, selectedValue: $pieSelectedValue)
-                    .frame(height: 260)
-                    .padding(.horizontal)
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Mood Distribution")
+                        .font(.headline)
+                        .padding(.top)
+                                    
+                    PieChartViewWrapper(data: moodStats.moodCounts, selectedValue: $pieSelectedValue)
+                        .frame(height: 260)
+                        .padding(.horizontal)
+                }
+                .padding()
+                .background(
+                    RoundedRectangle(cornerRadius: 16)
+                        .fill(Color(.systemBackground))
+                        .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 4)
+                )
+                .padding(.horizontal)
                 
-                Text("Daily Mood Trend")
-                   .font(.headline)
-                   .padding(.horizontal)
-               LineChartViewWrapper(data: dailyTrend, labels: dailyLabels)
-                   .frame(height: 220)
-                   .padding(.horizontal)
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Daily Mood Trend")
+                       .font(.headline)
+                       .padding(.top)
+
+                    LineChartViewWrapper(data: dailyTrend, labels: dailyLabels)
+                        .frame(height: 220)
+                        .padding(.horizontal)
+                }
+                .padding()
+                .background(
+                    RoundedRectangle(cornerRadius: 16)
+                        .fill(Color(.systemBackground))
+                        .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 4)
+                )
+                .padding(.horizontal)
                 
-                Text("Moods by Weekday")
-                    .font(.headline)
-                    .padding(.horizontal)
-                
-                HorizontalBarChartViewWrapper(data: weekdayDistribution)
-                    .frame(height: 200)
-                    .padding(.horizontal)
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Moods by Weekday")
+                        .font(.headline)
+                        .padding(.top)
+
+                    HorizontalBarChartViewWrapper(data: weekdayDistribution)
+                        .frame(height: 200)
+                        .padding(.horizontal)
+                }
+                .padding()
+                .background(
+                    RoundedRectangle(cornerRadius: 16)
+                        .fill(Color(.systemBackground))
+                        .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 4)
+                )
+                .padding(.horizontal)
 
                 Spacer(minLength: 40)
             }
