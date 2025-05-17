@@ -13,12 +13,13 @@ struct SettingsScreen: View {
     @State private var showMailErrorAlert = false
     
     let whatsNewURL = URL(string: "https://github.com/NaagAlgates/MyMoodz/releases")!
-    let rateAppURL = URL(string: "https://www.nagaraj.com.au")!
-    let privacyPolicyURL = URL(string: "https://www.mymoodz.nagaraj.com.au/privacy")!
+    let rateAppURL = URL(string: "https://apps.apple.com/app/com.jcube.mymood")!
+    let privacyPolicyURL = URL(string: "https://generated-chipmunk-8ce.notion.site/Privacy-Policy-1de5006066e68034ae39f9229ab021a3")!
     let openSourceURL = URL(string: "https://github.com/NaagAlgates/MyMoodz")!
-    let licensesURL = URL(string: "https://www.mymoodz.nagaraj.com.au/licenses")!
-    let onBoardingURL = URL(string: "https://www.mymoodz.nagaraj.com.au/onboarding")!
-    let appFeaturesURL = URL(string: "https://www.mymoodz.nagaraj.com.au/features")!
+    let licensesURL = URL(string: "https://generated-chipmunk-8ce.notion.site/Licenses-1de5006066e6803e930ad3d123153ad8")!
+    let onBoardingURL = URL(string: "https://generated-chipmunk-8ce.notion.site/Onboarding-Guide-1de5006066e680c080c0eaf075efcc45")!
+    let appFeaturesURL = URL(string: "https://generated-chipmunk-8ce.notion.site/App-Features-1de5006066e6805da9d5f8345d208fa5")!
+    let developerURL = URL(string: "https://nagaraj.com.au")!
 
 
     var body: some View {
@@ -35,12 +36,12 @@ struct SettingsScreen: View {
                         Label("Give Feedback", systemImage: "flag")
                     }
                     .sheet(isPresented: $isShowingMailView) {
-                        MailView(recipientEmail: "xxx@g.com")
+                        MailView(recipientEmail: "me@nagaraj.com.au")
                     }
                     .alert(isPresented: $showMailErrorAlert) {
                         Alert(
                             title: Text("Mail Not Supported"),
-                            message: Text("Please configure a mail account on your device to send feedback."),
+                            message: Text("Please configure a mail account on your device to send feedback. Or send an email to me@nagaraj.com.au"),
                             dismissButton: .default(Text("OK"))
                         )
                     }
@@ -80,6 +81,12 @@ struct SettingsScreen: View {
                     }
                     Link(destination: licensesURL) {
                         Label("Licenses", systemImage: "doc.plaintext")
+                    }
+                }
+                
+                Section(header: Text("About")) {
+                    Link(destination: developerURL) {
+                        Label("Developer", systemImage: "person.circle")
                     }
                 }
 
