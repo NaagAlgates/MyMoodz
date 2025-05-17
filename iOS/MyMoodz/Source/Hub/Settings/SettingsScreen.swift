@@ -20,6 +20,7 @@ struct SettingsScreen: View {
     let onBoardingURL = URL(string: "https://generated-chipmunk-8ce.notion.site/Onboarding-Guide-1de5006066e680c080c0eaf075efcc45")!
     let appFeaturesURL = URL(string: "https://generated-chipmunk-8ce.notion.site/App-Features-1de5006066e6805da9d5f8345d208fa5")!
     let developerURL = URL(string: "https://nagaraj.com.au")!
+    let issueURL = URL(string: "https://github.com/NaagAlgates/MyMoodz/issues")!
 
 
     var body: some View {
@@ -68,6 +69,10 @@ struct SettingsScreen: View {
 
                     Link(destination: openSourceURL) {
                         Label("MyMoodz is open source", systemImage: "curlybraces")
+                    }
+                    
+                    Link(destination: issueURL) {
+                        Label("Report Issues", systemImage: "ladybug")
                     }
                 }
 
