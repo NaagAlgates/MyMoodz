@@ -19,5 +19,6 @@ class MoodManager: ObservableObject {
         }
     }
 
-    @Published var selectedColor: Color = .black
+    @Published var selectedColor: Color = Color.primary
+
 }

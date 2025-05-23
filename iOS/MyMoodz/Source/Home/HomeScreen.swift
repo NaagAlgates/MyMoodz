@@ -20,7 +20,7 @@ struct HomeScreen: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color.white
+                    Color("BackgroundPrimary")
                     .ignoresSafeArea()
                     .contentShape(Rectangle())
 
@@ -29,7 +29,7 @@ struct HomeScreen: View {
                     ZStack {
                         Text("How are you feeling?")
                             .font(.sfRounded(22, weight: .semibold))
-                            .foregroundColor(moodManager.selectedColor)
+                            .foregroundColor(moodManager.selectedColor ?? Color.primary)
                             .animation(.easeInOut(duration: 0.3), value: moodManager.selectedColor)
 
                         HStack {

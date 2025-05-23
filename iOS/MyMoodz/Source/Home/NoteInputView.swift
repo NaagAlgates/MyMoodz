@@ -14,8 +14,13 @@ struct NoteInputView: View {
 
     var body: some View {
         TextEditor(text: $note)
+            .scrollContentBackground(.hidden)
             .padding(12)
             .background(
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(Color("NoteBackground"))
+                )
+            .overlay(
                 RoundedRectangle(cornerRadius: 10)
                     .stroke(
                         isFocused
@@ -23,10 +28,10 @@ struct NoteInputView: View {
                         : Color.gray.opacity(0.4),
                         lineWidth: 1
                     )
-
             )
             .frame(minHeight: 100, maxHeight: 200)
             .focused($isFocused)
+            .foregroundColor(Color("NoteText"))
             .overlay(
                 Group {
                     if note.isEmpty {

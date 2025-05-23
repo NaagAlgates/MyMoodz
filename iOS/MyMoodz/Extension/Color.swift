@@ -21,4 +21,11 @@ extension Color {
 
         self.init(red: r, green: g, blue: b)
     }
+    
+    func isDark(in scheme: ColorScheme) -> Bool {
+            let uiColor = UIColor(self)
+            var white: CGFloat = 0
+            uiColor.getWhite(&white, alpha: nil)
+            return scheme == .dark && white < 0.2
+        }
 }
