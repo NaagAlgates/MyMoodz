@@ -26,12 +26,12 @@
 
 ## 📱 Screenshots
 
-<img src="./Screenshots/1-left.png" alt="Mood Entry" height="500"/>
-<img src="./Screenshots/2-left.png" alt="Mood Entry" height="500"/>
-<img src="./Screenshots/3-left.png" alt="Mood Entry" height="500"/>
-<img src="./Screenshots/4-left.png" alt="Mood Entry" height="500"/>
-<img src="./Screenshots/5-left.png" alt="Mood Entry" height="500"/>
-
+<p align="center">
+  <img src="./Screenshots/1.png" alt="Mood Entry 1" width="22%"/>
+  <img src="./Screenshots/2.png" alt="Mood Entry 2" width="22%"/>
+  <img src="./Screenshots/3.png" alt="Mood Entry 3" width="22%"/>
+  <img src="./Screenshots/4.png" alt="Mood Entry 4" width="22%"/>
+</p>
 ---
 
 ## 🧑‍💻 Tech Stack

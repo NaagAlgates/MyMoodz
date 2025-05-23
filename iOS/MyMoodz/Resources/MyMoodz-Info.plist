@@ -10,5 +10,7 @@
 		<string>SF-Pro-Rounded-Semibold.otf</string>
 		<string>SF-Pro-Rounded-Bold.otf</string>
 	</array>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 </dict>
 </plist>
