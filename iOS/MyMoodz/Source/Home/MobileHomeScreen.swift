@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct HomeScreen: View {
+struct MobileHomeScreen: View {
     @State private var lastMoodEntry: MoodEntry?
     @ObservedObject var moodManager = MoodManager.shared
     @State private var note = ""
@@ -77,6 +77,7 @@ struct HomeScreen: View {
                         if let emoji = moodManager.selectedEmoji {
                             MoodDataService.shared.saveMood(emoji: emoji, note: note)
                             lastMoodEntry = MoodDataService.shared.fetchLatestMood()
+                            moodManager.refreshMoods() 
                             Log.d("Mood: \(emoji), Note: \(note)")
                         }
                         moodManager.selectedEmoji = nil
