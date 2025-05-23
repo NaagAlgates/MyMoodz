@@ -22,7 +22,7 @@ Examples of unacceptable behavior include:
 
 ## Enforcement
 
-Instances of abusive or unacceptable behavior may be reported directly to me at [your-email@example.com]. I am committed to reviewing and addressing all reports fairly and respectfully.
+Instances of abusive or unacceptable behavior may be reported directly to me at [me@nagaraj.com.au]. I am committed to reviewing and addressing all reports fairly and respectfully.
 
 ## Attribution
 
