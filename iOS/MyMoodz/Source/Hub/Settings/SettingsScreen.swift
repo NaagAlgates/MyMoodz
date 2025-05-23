@@ -14,11 +14,11 @@ struct SettingsScreen: View {
     
     let whatsNewURL = URL(string: "https://github.com/NaagAlgates/MyMoodz/releases")!
     let rateAppURL = URL(string: "https://apps.apple.com/app/com.jcube.mymoodz")!
-    let privacyPolicyURL = URL(string: "https://generated-chipmunk-8ce.notion.site/Privacy-Policy-1de5006066e68034ae39f9229ab021a3")!
+    let privacyPolicyURL = URL(string: "https://github.com/NaagAlgates/MyMoodz/blob/docs/docs/PRIVACY_POLICY.md")!
     let openSourceURL = URL(string: "https://github.com/NaagAlgates/MyMoodz")!
-    let licensesURL = URL(string: "https://generated-chipmunk-8ce.notion.site/Licenses-1de5006066e6803e930ad3d123153ad8")!
-    let onBoardingURL = URL(string: "https://generated-chipmunk-8ce.notion.site/Onboarding-Guide-1de5006066e680c080c0eaf075efcc45")!
-    let appFeaturesURL = URL(string: "https://generated-chipmunk-8ce.notion.site/App-Features-1de5006066e6805da9d5f8345d208fa5")!
+    let licensesURL = URL(string: "https://github.com/NaagAlgates/MyMoodz/blob/docs/docs/LICENSE.md")!
+    let onBoardingURL = URL(string: "https://github.com/NaagAlgates/MyMoodz/blob/docs/docs/ONBOARDING.md")!
+    let appFeaturesURL = URL(string: "https://github.com/NaagAlgates/MyMoodz/blob/docs/docs/FEATURES.md")!
     let developerURL = URL(string: "https://nagaraj.com.au")!
     let issueURL = URL(string: "https://github.com/NaagAlgates/MyMoodz/issues")!
 
