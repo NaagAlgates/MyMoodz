@@ -111,7 +111,7 @@ struct SettingsScreen: View {
     
     func getAppVersionString() -> String {
         let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"
-        
+        let buildVersion = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "Unknown"
         #if DEBUG
         let schema = "Development"
         #elseif PROD
@@ -120,6 +120,6 @@ struct SettingsScreen: View {
         let schema = "[UNKNOWN]"
         #endif
 
-        return "v\(version) \n\(schema)"
+        return "v\(version) (\(buildVersion))\n\(schema)"
     }
 }

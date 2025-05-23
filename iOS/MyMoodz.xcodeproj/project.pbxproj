@@ -11,7 +11,6 @@
 		D94B72462DA24F8B0018BD36 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = D94B72452DA24F8B0018BD36 /* Release.xcconfig */; };
 		D94B75DA2DADDE8B0018BD36 /* DGCharts in Frameworks */ = {isa = PBXBuildFile; productRef = D94B75D92DADDE8B0018BD36 /* DGCharts */; };
 		D9B945852DB75A120099E665 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = D9B945842DB75A0A0099E665 /* README.md */; };
-		D9B946022DB8CE9F0099E665 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = D9B946012DB8CE990099E665 /* LICENSE */; };
 		D9B9473B2DBE28010099E665 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = D9B9473A2DBE27FB0099E665 /* .gitignore */; };
 /* End PBXBuildFile section */
 
@@ -39,7 +38,6 @@
 		D9AAD60B2DA203A2009025CF /* My MoodzTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "My MoodzTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9AAD6152DA203A2009025CF /* My MoodzUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "My MoodzUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9B945842DB75A0A0099E665 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		D9B946012DB8CE990099E665 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		D9B9473A2DBE27FB0099E665 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -92,7 +90,6 @@
 			children = (
 				D94B72432DA24F630018BD36 /* Debug.xcconfig */,
 				D94B72452DA24F8B0018BD36 /* Release.xcconfig */,
-				D9B946012DB8CE990099E665 /* LICENSE */,
 				D9B9473A2DBE27FB0099E665 /* .gitignore */,
 				D9B945842DB75A0A0099E665 /* README.md */,
 				D9AAD5FD2DA2039F009025CF /* MyMoodz */,
@@ -237,7 +234,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D9B9473B2DBE28010099E665 /* .gitignore in Resources */,
-				D9B946022DB8CE9F0099E665 /* LICENSE in Resources */,
 				D94B72462DA24F8B0018BD36 /* Release.xcconfig in Resources */,
 				D94B72442DA24F630018BD36 /* Debug.xcconfig in Resources */,
 				D9B945852DB75A120099E665 /* README.md in Resources */,
@@ -426,7 +422,7 @@
 				CODE_SIGN_ENTITLEMENTS = MyMoodz/MyMoodz.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 4R9D624PCC;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -469,7 +465,7 @@
 				CODE_SIGN_ENTITLEMENTS = MyMoodz/MyMoodz.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 4R9D624PCC;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
