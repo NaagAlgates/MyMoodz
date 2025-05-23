@@ -13,7 +13,7 @@ struct SettingsScreen: View {
     @State private var showMailErrorAlert = false
     
     let whatsNewURL = URL(string: "https://github.com/NaagAlgates/MyMoodz/releases")!
-    let rateAppURL = URL(string: "https://apps.apple.com/app/com.jcube.mymood")!
+    let rateAppURL = URL(string: "https://apps.apple.com/app/com.jcube.mymoodz")!
     let privacyPolicyURL = URL(string: "https://generated-chipmunk-8ce.notion.site/Privacy-Policy-1de5006066e68034ae39f9229ab021a3")!
     let openSourceURL = URL(string: "https://github.com/NaagAlgates/MyMoodz")!
     let licensesURL = URL(string: "https://generated-chipmunk-8ce.notion.site/Licenses-1de5006066e6803e930ad3d123153ad8")!
