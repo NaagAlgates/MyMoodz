@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct HomeScreen: View {
+struct MobileHomeScreen: View {
     @State private var lastMoodEntry: MoodEntry?
     @ObservedObject var moodManager = MoodManager.shared
     @State private var note = ""
