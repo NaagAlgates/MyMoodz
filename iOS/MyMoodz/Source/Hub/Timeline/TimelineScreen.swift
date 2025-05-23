@@ -8,7 +8,6 @@ import SwiftUI
 
 struct TimelineScreen: View {
     @ObservedObject var moodManager = MoodManager.shared
-    @State private var moodEntries: [MoodEntry] = []
     @State private var searchText = ""
     @State private var selectedEntry: MoodEntryData?
     @State private var now = Date()
@@ -32,13 +31,10 @@ struct TimelineScreen: View {
         }
         .sheet(item: $selectedEntry) { entryData in
             EditMoodSheet(entryData: entryData) {
-                moodEntries = MoodDataService.shared.fetchAllMoods()
+                moodManager.refreshMoods()
                 refreshTrigger = UUID()
                 selectedEntry = nil
             }
-        }
-        .onAppear {
-            moodEntries = MoodDataService.shared.fetchAllMoods()
         }
         .onReceive(timer) { _ in
             now = Date()
@@ -95,11 +91,11 @@ struct TimelineScreen: View {
                         },
                         onDelete: {
                             MoodDataService.shared.deleteMood(entry)
-                            moodEntries = MoodDataService.shared.fetchAllMoods()
+                            moodManager.refreshMoods()
                             refreshTrigger = UUID()
                         },
                         onUpdate: {
-                            moodEntries = MoodDataService.shared.fetchAllMoods()
+                            moodManager.refreshMoods()
                             refreshTrigger = UUID()
                         }
                     )
@@ -115,7 +111,7 @@ struct TimelineScreen: View {
             VStack(spacing: 16) {
                 CalendarView(
                     selectedDate: $selectedDate,
-                    moodDates: moodEntries.compactMap { $0.timestamp }
+                    moodDates: moodManager.allMoodEntries.compactMap { $0.timestamp }
                 )
                 .padding(.horizontal)
 
@@ -142,11 +138,11 @@ struct TimelineScreen: View {
                                     },
                                     onDelete: {
                                         MoodDataService.shared.deleteMood(entry)
-                                        moodEntries = MoodDataService.shared.fetchAllMoods()
+                                        moodManager.refreshMoods()
                                         refreshTrigger = UUID()
                                     },
                                     onUpdate: {
-                                        moodEntries = MoodDataService.shared.fetchAllMoods()
+                                        moodManager.refreshMoods()
                                         refreshTrigger = UUID()
                                     }
                                 )
@@ -193,7 +189,7 @@ struct TimelineScreen: View {
     }
 
     var sortedFilteredEntries: [MoodEntry] {
-        let dateFiltered = moodEntries.filter { entry in
+        let dateFiltered = moodManager.allMoodEntries.filter { entry in
             guard let timestamp = entry.timestamp else { return false }
             switch filterBy {
             case .all: return true
@@ -223,7 +219,7 @@ struct TimelineScreen: View {
     var sortedDayEntries: [MoodEntry] {
         guard let selected = selectedDate else { return [] }
 
-        return moodEntries
+        return moodManager.allMoodEntries
             .filter {
                 guard let ts = $0.timestamp else { return false }
                 return Calendar.current.isDate(ts, inSameDayAs: selected)

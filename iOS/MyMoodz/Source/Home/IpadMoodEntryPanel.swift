@@ -6,9 +6,7 @@
 //
 
 import SwiftUI
-
 struct IpadMoodEntryPanel: View {
-    @State private var lastMoodEntry: MoodEntry?
     @ObservedObject var moodManager = MoodManager.shared
     @State private var note = ""
     @State private var now = Date()
@@ -24,7 +22,7 @@ struct IpadMoodEntryPanel: View {
                     .foregroundColor(moodManager.selectedColor)
             }
 
-            if let last = lastMoodEntry {
+            if let last = moodManager.allMoodEntries.first {
                 HStack(spacing: 4) {
                     Text("Last mood:")
                         .foregroundColor(.gray)
@@ -50,7 +48,7 @@ struct IpadMoodEntryPanel: View {
             Button(action: {
                 if let emoji = moodManager.selectedEmoji {
                     MoodDataService.shared.saveMood(emoji: emoji, note: note)
-                    lastMoodEntry = MoodDataService.shared.fetchLatestMood()
+                    moodManager.refreshMoods()
                 }
                 moodManager.selectedEmoji = nil
                 note = ""
@@ -79,7 +77,7 @@ struct IpadMoodEntryPanel: View {
         }
         .padding()
         .onAppear {
-            lastMoodEntry = MoodDataService.shared.fetchLatestMood()
+            moodManager.refreshMoods()
         }
         .onReceive(timer) { _ in now = Date() }
     }

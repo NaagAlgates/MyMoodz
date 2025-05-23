@@ -77,6 +77,7 @@ struct MobileHomeScreen: View {
                         if let emoji = moodManager.selectedEmoji {
                             MoodDataService.shared.saveMood(emoji: emoji, note: note)
                             lastMoodEntry = MoodDataService.shared.fetchLatestMood()
+                            moodManager.refreshMoods() 
                             Log.d("Mood: \(emoji), Note: \(note)")
                         }
                         moodManager.selectedEmoji = nil
