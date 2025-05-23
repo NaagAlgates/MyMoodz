@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MoodRow: View {
     @ObservedObject var moodManager = MoodManager.shared
-
+    @Environment(\.colorScheme) var colorScheme
     let entry: MoodEntry
     let now: Date
     let onEdit: () -> Void
@@ -44,7 +44,9 @@ struct MoodRow: View {
                     onUpdate()
                 } label: {
                     Image(systemName: entry.isPinned ? "pin.circle.fill" : "pin.circle")
-                        .foregroundColor(moodManager.selectedColor.opacity(0.9))
+                        .foregroundColor(
+                            moodManager.selectedColor.isDark(in: colorScheme) ? Color.accentColor : moodManager.selectedColor.opacity(0.9)
+                        )
 
                 }
                 Button(action: onEdit) {
@@ -73,7 +75,7 @@ struct MoodRow: View {
                 if entry.isPinned {
                     moodManager.selectedColor.opacity(0.2)
                 } else {
-                    Color.white
+                    Color("MoodRowBackground")
                 }
             }
         )

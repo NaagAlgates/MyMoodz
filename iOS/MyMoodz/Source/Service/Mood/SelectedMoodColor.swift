@@ -22,7 +22,7 @@ struct SelectedMoodColor {
         case "🥰": return Color(hex: "#EC407A")
         case "🤔": return Color(hex: "#303F9F")
         case "🤗": return Color(hex: "#66BB6A")
-        default: return .black
+        default: return Color.primary
         }
     }
 }
