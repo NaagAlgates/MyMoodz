@@ -29,7 +29,7 @@ struct HomeScreen: View {
                     ZStack {
                         Text("How are you feeling?")
                             .font(.sfRounded(22, weight: .semibold))
-                            .foregroundColor(moodManager.selectedColor ?? Color.primary)
+                            .foregroundColor(moodManager.selectedColor)
                             .animation(.easeInOut(duration: 0.3), value: moodManager.selectedColor)
 
                         HStack {
