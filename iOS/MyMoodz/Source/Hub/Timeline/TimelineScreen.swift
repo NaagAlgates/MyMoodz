@@ -39,6 +39,9 @@ struct TimelineScreen: View {
         .onReceive(timer) { _ in
             now = Date()
         }
+        .onAppear {
+            moodManager.refreshMoods()
+        }
     }
 
     var content: some View {

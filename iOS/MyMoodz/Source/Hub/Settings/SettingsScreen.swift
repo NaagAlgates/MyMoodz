@@ -21,6 +21,7 @@ struct SettingsScreen: View {
     let appFeaturesURL = URL(string: "https://github.com/NaagAlgates/MyMoodz/blob/docs/docs/FEATURES.md")!
     let developerURL = URL(string: "https://nagaraj.com.au")!
     let issueURL = URL(string: "https://github.com/NaagAlgates/MyMoodz/issues")!
+    let discussionURL = URL(string: "https://github.com/NaagAlgates/MyMoodz/discussions")!
 
     var body: some View {
         Group {
@@ -58,6 +59,17 @@ struct SettingsScreen: View {
                 }
 
                 Text("This app is developed by one person and with the help of generative AI. I appreciate your feedback and it will try to improve the quality of the app")
+                    .font(.footnote)
+                    .foregroundColor(.secondary)
+                    .padding(.top, 4)
+                
+                Link(destination: discussionURL) {
+                        Label("Discussion", systemImage: "text.bubble")
+                    }
+
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Join the discussion forum to share ideas or suggest new features.")
+                    }
                     .font(.footnote)
                     .foregroundColor(.secondary)
                     .padding(.top, 4)
